@@ -62,6 +62,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "src.users",
+    "src.answers",
+    "src.questions",
+    "src.sections",
+    "src.tests",
+    "src.test_history",
 ]
 
 MIDDLEWARE = [
