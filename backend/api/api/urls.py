@@ -21,9 +21,20 @@ from rest_framework_simplejwt.views import (
 )
 from rest_framework.routers import DefaultRouter
 from src.users.urls import usersRouter
+from src.answers.urls import answersRouter
+from src.questions.urls import questionsRouter
+from src.sections.urls import sectionsRouter
+from src.tests.urls import testsRouter
+from src.test_history.urls import testHistoryRouter
+
 
 router = DefaultRouter()
 router.registry.extend(usersRouter.registry)
+router.registry.extend(answersRouter.registry)
+router.registry.extend(questionsRouter.registry)
+router.registry.extend(testsRouter.registry)
+router.registry.extend(sectionsRouter.registry)
+router.registry.extend(testHistoryRouter.registry)
 urls = []
 
 urlpatterns = [
