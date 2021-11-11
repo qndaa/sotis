@@ -14,11 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from rest_framework_swagger.views import get_swagger_view
 from rest_framework.routers import DefaultRouter
 from src.users.urls import usersRouter
 from src.answers.urls import answersRouter
@@ -35,11 +36,16 @@ router.registry.extend(questionsRouter.registry)
 router.registry.extend(testsRouter.registry)
 router.registry.extend(sectionsRouter.registry)
 router.registry.extend(testHistoryRouter.registry)
+
+
+swagger_docs_view = get_swagger_view(title="SOTIS Api")
+
 urls = []
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include(router.urls)),
+    re_path(r"^swagger$", swagger_docs_view),
     path("api/v1/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ] + urls

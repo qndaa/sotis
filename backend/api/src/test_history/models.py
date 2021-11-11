@@ -7,7 +7,7 @@ from src.answers.models import Answer
 
 class TestHistory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    date = models.DateTimeField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     total_points = models.FloatField(blank=True, null=True)
     mark = models.IntegerField(blank=True, null=True)
     test_status = models.CharField(
@@ -17,3 +17,9 @@ class TestHistory(models.Model):
     )
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     given_answers = models.ManyToManyField(Answer)
+
+    def __str__(self):
+        return str(self.date)
+
+    class Meta:
+        verbose_name_plural = "Test histories"

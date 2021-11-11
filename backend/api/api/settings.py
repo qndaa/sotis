@@ -31,9 +31,7 @@ SECRET_KEY = "django-insecure-fa%=cd710kyibu-nuroufwk$t7a$5+a00(@qh83^ha!j-c^dp-
 DEBUG = True
 
 # Web is added to support NGINX config
-ALLOWED_HOSTS = [
-    "web",
-]
+ALLOWED_HOSTS = ["web", "localhost"]
 
 
 # Application definition
@@ -61,6 +59,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
+    "rest_framework_swagger",
     "src.users",
     "src.answers",
     "src.questions",
