@@ -5,3 +5,5 @@ COPY ./requirements.txt /backend/
 RUN pip install -r requirements.txt
 COPY . /backend/
 WORKDIR /backend/api
+
+
