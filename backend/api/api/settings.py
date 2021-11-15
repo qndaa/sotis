@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    "rest_framework_swagger",
+    "drf_yasg",
     "src.users",
     "src.answers",
     "src.questions",

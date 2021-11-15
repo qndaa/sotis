@@ -27,6 +27,35 @@ from src.questions.urls import questionsRouter
 from src.sections.urls import sectionsRouter
 from src.tests.urls import testsRouter
 from src.test_history.urls import testHistoryRouter
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="SOTIS API",
+        default_version="v1",
+        description="LMS",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
+swagger_urlpatterns = [
+    re_path(
+        r"^swagger(?P<format>\.json|\.yaml)$",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    re_path(
+        r"^swagger/$",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    re_path(
+        r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
+    ),
+]
 
 
 router = DefaultRouter()
@@ -42,10 +71,13 @@ swagger_docs_view = get_swagger_view(title="SOTIS Api")
 
 urls = []
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/v1/", include(router.urls)),
-    re_path(r"^swagger$", swagger_docs_view),
-    path("api/v1/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-] + urls
+urlpatterns = (
+    [
+        path("admin/", admin.site.urls),
+        path("api/v1/", include(router.urls)),
+        path("api/v1/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+        path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    ]
+    + urls
+    + swagger_urlpatterns
+)
