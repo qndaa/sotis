@@ -12,7 +12,7 @@
 // };
 
 import ACTION_TYPES from "../actionTypes/auth";
-import { getTokens } from "../../../utils/LocalStorage";
+import {getTokens, removeTokens} from "../../../utils/LocalStorage";
 import produce from "immer";
 
 export const initialState = {
@@ -32,6 +32,7 @@ const authenticationReducer = (state = initialState, action) =>
       case ACTION_TYPES.LOGOUT:
         draft.tokens = null;
         draft.loggedOut = false;
+        removeTokens();
         break;
 
       case ACTION_TYPES.LOGIN:

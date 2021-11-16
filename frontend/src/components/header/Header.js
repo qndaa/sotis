@@ -9,9 +9,9 @@ export default function ({ logout }) {
       className={`navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow d-flex justify-content-end`}
     >
       {isLoggedIn ? (
-        <button className={`btn btn-primary mr-3`} onClick={logout}>
+        <a className={`btn btn-primary mr-3`} onClick={logout}>
           Log out
-        </button>
+        </a>
       ) : (
         <>
           <Link className={`btn btn-primary mr-3`} to={`/registration`}>
