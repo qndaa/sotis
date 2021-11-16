@@ -11,4 +11,4 @@ class QuestionSerializer(serializers.ModelSerializer):
 class FetchQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        exclude = ("correct_answer",)
+        exclude = ("correct_answers",)

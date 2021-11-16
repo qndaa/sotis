@@ -4,9 +4,9 @@ import {
   removeTokens,
   getAccessToken,
   getRefreshToken,
-} from "../utils/localStorage";
+} from "../../utils/LocalStorage";
 import jwtDecode from "jwt-decode";
-import { client } from "./AlternativeHttpClient";
+import { client } from "../HttpClient";
 
 const ROUTES = {
   LOGIN: "/login/",
