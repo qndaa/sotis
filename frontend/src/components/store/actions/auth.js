@@ -16,3 +16,17 @@ export function logout() {
     type: ACTION_TYPES.LOGOUT,
   };
 }
+
+export function setToken(token) {
+  return {
+    type: ACTION_TYPES.SET_TOKEN,
+    token,
+  };
+}
+
+export function setRefreshToken(refreshToken) {
+  return {
+    type: ACTION_TYPES.SET_REFRESH,
+    refreshToken,
+  };
+}

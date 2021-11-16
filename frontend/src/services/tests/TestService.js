@@ -4,12 +4,15 @@ import {
   removeTokens,
   getAccessToken,
   getRefreshToken,
-} from "../utils/localStorage";
+} from "../../utils/LocalStorage";
 import jwtDecode from "jwt-decode";
-import { client } from "./AlternativeHttpClient";
+import { client } from "../HttpClient";
 
 const ROUTES = {
-  CREATE_NEW_ANSWER: "/answers",
+  CREATE_NEW_ANSWER: "/answers/",
+  CREATE_NEW_QUESTION: "/questions/",
+  SAVE_SECTION: "/sections/",
+  SAVE_TEST: "/tests/",
 };
 
 class TestService {
@@ -65,17 +68,62 @@ class TestService {
     return tokens.access;
   };
 
-  createNewAnswer = (text, identifier) => {
+  createNewAnswer = async (data) => {
     const newAnswer = await this.client({
       method: "POST",
       url: ROUTES.CREATE_NEW_ANSWER,
-      text,
-      identifier,
+      data,
     });
 
-    console.log(newAnswer.data);
-
     return newAnswer;
+  };
+
+  createNewQuestion = async (data) => {
+    const newQuestion = await this.client({
+      method: "POST",
+      url: ROUTES.CREATE_NEW_QUESTION,
+      data,
+    });
+
+    return newQuestion;
+  };
+
+  saveSection = async (data) => {
+    const newSection = await this.client({
+      method: "POST",
+      url: ROUTES.SAVE_SECTION,
+      data,
+    });
+
+    return newSection;
+  };
+
+  saveTest = async (data) => {
+    const newTest = await this.client({
+      method: "POST",
+      url: ROUTES.SAVE_TEST,
+      data,
+    });
+
+    return newTest;
+  };
+
+  getAllQuestions = async () => {
+    const allQuestions = await this.client({
+      method: "GET",
+      url: ROUTES.CREATE_NEW_QUESTION,
+    });
+
+    return allQuestions;
+  };
+
+  getAllSections = async () => {
+    const allSections = await this.client({
+      method: "GET",
+      url: ROUTES.SAVE_SECTION,
+    });
+
+    return allSections;
   };
 
   removeHeaders = (headerKey) => {

@@ -27,6 +27,20 @@ export default function () {
         </Link>
       </li>
       <hr className="sidebar-divider my-0" />
+      <li className="nav-item active">
+        <Link className="nav-link" to={PAGE_ROUTES.CREATE_QUESTION}>
+          <FontAwesomeIcon icon={faPlus} className={`mr-2`} />
+          <span>Create Question</span>
+        </Link>
+      </li>
+      <hr className="sidebar-divider my-0" />
+      <li className="nav-item active">
+        <Link className="nav-link" to={PAGE_ROUTES.CREATE_SECTION}>
+          <FontAwesomeIcon icon={faPlus} className={`mr-2`} />
+          <span>Create Section</span>
+        </Link>
+      </li>
+      <hr className="sidebar-divider my-0" />
     </ul>
   );
 }

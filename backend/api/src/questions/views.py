@@ -25,10 +25,18 @@ class QuestionViewSet(ModelViewSet):
                 status=status.HTTP_401_FORBIDDEN,
             )
         serializer_class = self.get_serializer_class()
-        serializer = serializer_class(data=request.data)
+        data_copy = request.data.copy()
+        data_copy["created_by"] = request.user.id
+        serializer = serializer_class(data=data_copy)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        queryset = Question.objects.filter(created_by=request.user.id)
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(queryset, many=True)
+        return Response(serializer.data)
 
     # @action(
     #     methods=["POST", "DELETE"],

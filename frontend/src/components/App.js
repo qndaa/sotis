@@ -11,6 +11,10 @@ import CreateTest from "./tests/CreateTest";
 import PAGE_ROUTES from "../pageRoutes";
 import { useDispatch } from "react-redux";
 import { logout } from "./store/actions/auth";
+import CreateQuestion from "./tests/CreateQuestion";
+import CreateSections from "./tests/CreateSections";
+import CreateNewTest from "./tests/CreateNewTest";
+// import CreateQuestion from "./tests/CreateQuestion";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -42,7 +46,17 @@ export default function App() {
                 <Route
                   path={PAGE_ROUTES.CREATE_TEST}
                   exact={true}
-                  element={<CreateTest />}
+                  element={<CreateNewTest />}
+                />
+                <Route
+                  path={PAGE_ROUTES.CREATE_QUESTION}
+                  exact={true}
+                  element={<CreateQuestion />}
+                />
+                <Route
+                  path={PAGE_ROUTES.CREATE_SECTION}
+                  exact={true}
+                  element={<CreateSections />}
                 />
                 <Route
                   path={PAGE_ROUTES.FORBIDDEN}
