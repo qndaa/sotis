@@ -126,6 +126,16 @@ class TestService {
     return allSections;
   };
 
+  fetchTest = async ({ id }) => {
+    console.log(`${ROUTES.SAVE_TEST}${id}`);
+    const test = await this.client({
+      method: "GET",
+      url: `${ROUTES.SAVE_TEST}${id}/`,
+    });
+
+    return test;
+  };
+
   removeHeaders = (headerKey) => {
     headerKey.forEach((key) => delete this.client.defaults.headers[key]);
   };

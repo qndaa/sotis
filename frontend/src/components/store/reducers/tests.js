@@ -7,6 +7,7 @@ export const initialState = {
   showSuccessToast: false,
   allQuestions: [],
   allSections: [],
+  selectedTest: null,
 };
 
 const testsReducer = (state = initialState, action) =>
@@ -33,6 +34,11 @@ const testsReducer = (state = initialState, action) =>
       case ACTION_TYPES.SAVE_SECTION:
         break;
       case ACTION_TYPES.SAVE_TEST:
+        break;
+      case ACTION_TYPES.FETCH_TEST:
+        break;
+      case ACTION_TYPES.SET_TEST:
+        draft.selectedTest = action.test;
         break;
       case ACTION_TYPES.SET_ALL_QUESTIONS:
         draft.allQuestions = action.allQuestions;

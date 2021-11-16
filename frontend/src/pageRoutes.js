@@ -3,6 +3,7 @@ const PAGE_ROUTES = {
   HOME: "/home",
   LOGIN: "/login",
   CREATE_TEST: "/create-test",
+  TAKE_TEST: "/take-test/:id",
   CREATE_QUESTION: "/create-question",
   CREATE_SECTION: "/create-section",
   FORBIDDEN: "/forbidden",

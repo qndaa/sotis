@@ -14,6 +14,7 @@ import { logout } from "./store/actions/auth";
 import CreateQuestion from "./tests/CreateQuestion";
 import CreateSections from "./tests/CreateSections";
 import CreateNewTest from "./tests/CreateNewTest";
+import TakeTest from "./tests/TakeTest";
 // import CreateQuestion from "./tests/CreateQuestion";
 
 export default function App() {
@@ -57,6 +58,11 @@ export default function App() {
                   path={PAGE_ROUTES.CREATE_SECTION}
                   exact={true}
                   element={<CreateSections />}
+                />
+                <Route
+                  path={PAGE_ROUTES.TAKE_TEST}
+                  exact
+                  element={<TakeTest />}
                 />
                 <Route
                   path={PAGE_ROUTES.FORBIDDEN}

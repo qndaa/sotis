@@ -6,6 +6,7 @@ import {
   addNewAnswer,
   setAllQuestions,
   setAllSections,
+  setTest,
   showSuccessToast,
 } from "../actions/tests";
 
@@ -46,6 +47,21 @@ export function* fetchAllSections({ type }) {
       yield put(setAllSections(allSections.data));
     } else {
       throw new Error("Could not get all sections!");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function* fetchTest({ type, id }) {
+  try {
+    const test = yield call(testService.fetchTest, {
+      id,
+    });
+    if (test.data) {
+      console.log(test);
+      yield put(setTest(test.data));
+    } else {
+      throw new Error("Could not save section!");
     }
   } catch (error) {
     console.log(error);
@@ -118,11 +134,12 @@ export function* createNewQuestion({
   }
 }
 
-export default function* authSaga() {
+export default function* testSaga() {
   yield takeLatest(ACTION_TYPES.CREATE_NEW_ANSWER, createNewAnswer);
   yield takeLatest(ACTION_TYPES.CREATE_NEW_QUESTION, createNewQuestion);
   yield takeLatest(ACTION_TYPES.FETCH_ALL_QUESTIONS, getAllQuestions);
   yield takeLatest(ACTION_TYPES.SAVE_SECTION, saveSection);
   yield takeLatest(ACTION_TYPES.SAVE_TEST, saveTest);
   yield takeLatest(ACTION_TYPES.FETCH_ALL_SECTIONS, fetchAllSections);
+  yield takeLatest(ACTION_TYPES.FETCH_TEST, fetchTest);
 }
