@@ -1,3 +1,6 @@
+import decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
+
 const ACCESS_TOKEN_NAME = "token";
 const REFRESH_TOKEN_NAME = "refresh_token";
 
@@ -60,4 +63,12 @@ export function removeRefreshToken() {
 export function removeTokens() {
   removeAccessToken();
   removeRefreshToken();
+}
+
+export function getRoles() {
+  console.log('TOOOOOOKEEEEEEN')
+  if(getAccessToken() === null) {
+      return null;
+  }
+  return jwtDecode(getAccessToken());
 }

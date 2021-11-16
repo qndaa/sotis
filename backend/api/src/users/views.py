@@ -2,6 +2,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
+from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
 from .models import User
 from .serializers import CreateUserSerializer, UserSerializer
@@ -9,7 +10,7 @@ from rest_framework import mixins
 from src.commons.auth.validations import validate_password
 
 
-class UserViewSet(mixins.CreateModelMixin, GenericViewSet):
+class UserViewSet(mixins.CreateModelMixin, GenericViewSet, RetrieveModelMixin):
     queryset = User.objects.all()
     serializers = {
         "default": UserSerializer,

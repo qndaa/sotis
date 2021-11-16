@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 
 class TestViewSet(ModelViewSet, ListModelMixin):
+    ModelViewSet.permission_classes = (AllowAny, )
     permission_classes = (AllowAny,)
     queryset = Test.objects.all()
     serializer_class = TestSerializer
