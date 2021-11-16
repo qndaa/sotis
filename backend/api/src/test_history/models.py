@@ -3,6 +3,7 @@ import uuid
 from src.users.models import User
 from .constants import StatusOfTestList
 from src.answers.models import Answer
+from src.tests.models import Test
 
 
 class TestHistory(models.Model):
@@ -17,6 +18,7 @@ class TestHistory(models.Model):
     )
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     given_answers = models.ManyToManyField(Answer)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return str(self.date)

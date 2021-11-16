@@ -8,3 +8,9 @@ class TestSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 2
 
+
+class FetchTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Test
+        fields = "__all__"
+        depth = 3

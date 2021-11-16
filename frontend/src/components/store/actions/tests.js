@@ -87,3 +87,17 @@ export function saveTest(identifier, sections) {
     sections,
   };
 }
+
+export function fetchTest(id) {
+  return {
+    type: ACTION_TYPES.FETCH_TEST,
+    id,
+  };
+}
+
+export function setTest(test) {
+  return {
+    type: ACTION_TYPES.SET_TEST,
+    test,
+  };
+}
