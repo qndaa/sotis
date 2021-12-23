@@ -4,8 +4,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .models import User
-from .serializers import CreateUserSerializer, UserSerializer
+from .serializers import CreateUserSerializer, UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework import mixins
 from src.commons.auth.validations import validate_password
 
@@ -48,3 +50,7 @@ class UserViewSet(mixins.CreateModelMixin, GenericViewSet, RetrieveModelMixin):
                 status=status.HTTP_201_CREATED,
                 headers=headers,
             )
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

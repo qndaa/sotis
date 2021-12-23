@@ -101,3 +101,10 @@ export function setTest(test) {
     test,
   };
 }
+
+export function setAnswersForQuestion(answers) {
+  return {
+    type: ACTION_TYPES.SET_ANSWERS_FOR_QUESTION,
+    answers,
+  };
+}

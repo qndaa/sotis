@@ -40,6 +40,12 @@ export default function () {
           <span>Create Section</span>
         </Link>
       </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to={PAGE_ROUTES.CANVAS}>
+          <FontAwesomeIcon icon={faPlus} className={`mr-2`} />
+          <span>Canvas</span>
+        </Link>
+      </li>
       <hr className="sidebar-divider my-0" />
     </ul>
   );

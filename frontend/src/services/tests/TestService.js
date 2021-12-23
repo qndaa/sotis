@@ -13,6 +13,8 @@ const ROUTES = {
   CREATE_NEW_QUESTION: "/questions/",
   SAVE_SECTION: "/sections/",
   SAVE_TEST: "/tests/",
+  SAVE_CONNECTION: "/connections/",
+  KNOWLEDGE_SPACES: "/knowledge-spaces/",
 };
 
 class TestService {
@@ -116,6 +118,14 @@ class TestService {
 
     return allQuestions;
   };
+  getAllAnswers = async () => {
+    const allAnswers = await this.client({
+      method: "GET",
+      url: ROUTES.CREATE_NEW_ANSWER,
+    });
+
+    return allAnswers;
+  };
 
   getAllSections = async () => {
     const allSections = await this.client({
@@ -134,6 +144,33 @@ class TestService {
     });
 
     return test;
+  };
+
+  saveConnection = async (data) => {
+    console.log(data);
+    const connection = await this.client({
+      method: "POST",
+      url: ROUTES.SAVE_CONNECTION,
+      data,
+    });
+
+    return connection;
+  };
+
+  nextQuestion = async (test_id, question_id) => {
+    return await this.client({
+      method: "GET",
+      url: `${ROUTES.SAVE_TEST}${test_id}/next/${
+        question_id ? `${question_id}/` : ""
+      }`,
+    });
+  };
+
+  getKnowledgeSpacesForTest = async (testId) => {
+    return await this.client({
+      method: "GET",
+      url: `${ROUTES.KNOWLEDGE_SPACES}for-test/${testId}/`,
+    });
   };
 
   removeHeaders = (headerKey) => {

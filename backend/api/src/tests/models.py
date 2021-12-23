@@ -9,3 +9,8 @@ class Test(models.Model):
     identifier = models.TextField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     sections = models.ManyToManyField(Section, blank=True)
+    sort_by_ks = models.BooleanField(default=False)
+    sort_by_computed_ks = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.identifier

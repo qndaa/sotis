@@ -12,3 +12,4 @@ class FetchQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         exclude = ("correct_answers",)
+        depth = 1

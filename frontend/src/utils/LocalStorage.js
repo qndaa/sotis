@@ -65,10 +65,9 @@ export function removeTokens() {
   removeRefreshToken();
 }
 
-export function getRoles() {
-  console.log('TOOOOOOKEEEEEEN')
-  if(getAccessToken() === null) {
-      return null;
+export function getDecodedJWT() {
+  if (getAccessToken() === null) {
+    return null;
   }
   return jwtDecode(getAccessToken());
 }

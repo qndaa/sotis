@@ -9,3 +9,6 @@ class Answer(models.Model):
 
     def __str__(self):
         return str(self.identifier)
+
+    def get_question(self):
+        return self.questions

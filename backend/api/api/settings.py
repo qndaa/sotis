@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     "src.sections",
     "src.tests",
     "src.test_history",
+    "src.connections",
+    "src.knowledge_spaces",
 ]
 
 MIDDLEWARE = [
@@ -202,8 +204,8 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == True
 
 
 # CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-CELERY_BROKER_URL = "redis://redis:6379"
-CELERY_RESULT_BACKEND = "redis://redis:6379"
-CELERY_TASK_SERIALIZER = "json"
+# CELERY_BROKER_URL = "redis://localhost:6379"
+# CELERY_RESULT_BACKEND = "redis://localhost:6379"
+# CELERY_TASK_SERIALIZER = "json"
 
 SENDER_ADDRESS = os.getenv("DEFAULT_SENDER_ADDRESS")

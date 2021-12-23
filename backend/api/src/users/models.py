@@ -19,11 +19,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
-
-
-@receiver(post_save, sender=User)
-def send_new_user_email(sender, instance, created, **kwargs):
-    if created:
-        subject = "Verify your account!"
-        message = "An account has been created for this email address!\n\nIf this was You, please verify by clicking this link! http://mock-link.com"
-        send_email.delay(subject=subject, message=message, recipients=[instance.email])

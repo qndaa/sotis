@@ -10,10 +10,14 @@ import {
   closeSuccessToast,
 } from "../store/actions/tests";
 import Toast from "../toast";
+import testService from "../../services/tests/TestService";
 
 const CreateQuestion = () => {
   const dispatch = useDispatch();
-  let answersWithIds = useSelector((state) => state.tests.answers);
+  let answersWithIds = [];
+  useEffect(() => {
+    answersWithIds = testService.getAllAnswers();
+  }, []);
   const submit = (data) => {
     console.log(data);
   };
@@ -29,11 +33,11 @@ const CreateQuestion = () => {
   const [questionText, setQuestionText] = useState("");
   const [value, setValue] = useState(0);
 
-  const showSuccessToast = useSelector((state) => state.tests.showSuccessToast);
+  // const showSuccessToast = useSelector((state) => state.tests.showSuccessToast);
 
-  const handleSuccessToastClose = () => {
-    dispatch(closeSuccessToast());
-  };
+  // const handleSuccessToastClose = () => {
+  //   dispatch(closeSuccessToast());
+  // };
 
   const submitNewQuestion = () => {
     const allAnswers = [];
@@ -57,15 +61,13 @@ const CreateQuestion = () => {
 
     console.log(correctAnswersWithIds);
 
-    dispatch(
-      createNewQuestion(
-        questionText,
-        0,
-        correctAnswers.length,
-        value,
-        correctAnswerIds,
-        allAnswers
-      )
+    testService.createNewQuestion(
+      questionText,
+      0,
+      correctAnswers.length,
+      value,
+      correctAnswerIds,
+      allAnswers
     );
   };
 
@@ -75,7 +77,7 @@ const CreateQuestion = () => {
       text: text,
       isCorrect: false,
     });
-    dispatch(createNewAnswer(text, answers.length + 1));
+    testService.createNewAnswer({ text: text, identifier: answers.length + 1 });
   };
 
   const handleAnswerModalClose = () => {
@@ -167,12 +169,12 @@ const CreateQuestion = () => {
           Submit
         </button>
       </div>
-      <Toast
+      {/* <Toast
         title={"Success"}
         text={"Question successfully created!"}
         show={showSuccessToast}
         handleClose={handleSuccessToastClose}
-      />
+      /> */}
     </>
   );
 };

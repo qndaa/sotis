@@ -27,9 +27,14 @@ from src.questions.urls import questionsRouter
 from src.sections.urls import sectionsRouter
 from src.tests.urls import testsRouter
 from src.test_history.urls import testHistoryRouter
+from src.connections.urls import connectionsRouter
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
+from src.knowledge_spaces.urls import knowledge_space_router
+
+from src.users.views import CustomTokenObtainPairView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -65,6 +70,8 @@ router.registry.extend(questionsRouter.registry)
 router.registry.extend(testsRouter.registry)
 router.registry.extend(sectionsRouter.registry)
 router.registry.extend(testHistoryRouter.registry)
+router.registry.extend(connectionsRouter.registry)
+router.registry.extend(knowledge_space_router.registry)
 
 
 swagger_docs_view = get_swagger_view(title="SOTIS Api")
@@ -75,7 +82,7 @@ urlpatterns = (
     [
         path("admin/", admin.site.urls),
         path("api/v1/", include(router.urls)),
-        path("api/v1/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+        path("api/v1/login/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
         path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     ]
     + urls

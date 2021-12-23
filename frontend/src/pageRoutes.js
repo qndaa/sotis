@@ -6,6 +6,8 @@ const PAGE_ROUTES = {
   TAKE_TEST: "/take-test/:id",
   CREATE_QUESTION: "/create-question",
   CREATE_SECTION: "/create-section",
+  CANVAS: "/canvas",
+  KNOWLEDGE_SPACES: "/knowledge-spaces/:testId",
   FORBIDDEN: "/forbidden",
   NOT_FOUND: "/not-found",
 };

@@ -1,7 +1,14 @@
 from django.db import models
 import uuid
-from src.answers.models import Answer
-from src.users.models import User
+from ..answers.models import Answer
+from ..users.models import User
+
+
+class Domain(models.Model):
+    name = models.TextField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 
 class Question(models.Model):
@@ -13,7 +20,10 @@ class Question(models.Model):
     max_choices = models.IntegerField(blank=True, null=True)
     value = models.FloatField(blank=True, null=True)
     correct_answers = models.ManyToManyField(Answer, related_name="correct")
-    all_answers = models.ManyToManyField(Answer, related_name="all_answers", blank=True)
+    all_answers = models.ManyToManyField(Answer, related_name="questions", blank=True)
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True
+    )
+    domain = models.ForeignKey(
+        Domain, on_delete=models.CASCADE, blank=True, null=True
     )

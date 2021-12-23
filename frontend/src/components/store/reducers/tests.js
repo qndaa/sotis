@@ -8,6 +8,7 @@ export const initialState = {
   allQuestions: [],
   allSections: [],
   selectedTest: null,
+  answersForQuestions: [],
 };
 
 const testsReducer = (state = initialState, action) =>
@@ -45,6 +46,15 @@ const testsReducer = (state = initialState, action) =>
         break;
       case ACTION_TYPES.SET_ALL_SECTIONS:
         draft.allSections = action.allSections;
+        break;
+      case ACTION_TYPES.SET_ANSWERS_FOR_QUESTION:
+        // const answersUpdated = state.push(action.answersForQuestions);
+        draft.answersForQuestions = [
+          action.answers,
+          ...state.answersForQuestions.filter(
+            (answer) => answer.questionId !== action.answers.questionId
+          ),
+        ];
         break;
 
       default:

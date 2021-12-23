@@ -1,28 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTest } from "../store/actions/tests";
 import { useParams } from "react-router-dom";
 import SingleQuestionCard from "./SingleQuestionCard";
+import testService from "../../services/tests/TestService";
+import { setAnswersForQuestion } from "../store/actions/tests";
 
 const TakeTest = () => {
   const dispatch = useDispatch();
-  const id = useParams();
-  const selectedTest = useSelector((state) => state.tests.selectedTest);
-
-  const renderQuestions = () => {
-    const questions = [];
-    selectedTest.sections.forEach((section) => {
-      questions.push(section.questions);
-    });
-
-    return questions[0].map((question, index) => (
-      <SingleQuestionCard question={question} identifier={index + 1} />
-    ));
-  };
+  const params = useParams();
+  const [question, setQuestion] = useState(null);
+  const givenAnswersSelector = useSelector(
+    (state) => state.tests.answersForQuestions
+  );
 
   useEffect(() => {
-    dispatch(fetchTest(id.id));
-  }, [id]);
+    testService
+      .nextQuestion(params.id, null)
+      .then((response) => setQuestion(response.data));
+  }, [params]);
+
+  const loadNextQuestion = () => {
+    testService
+      .nextQuestion(params.id, question.id)
+      .then((response) => setQuestion(response.data));
+  };
+
+  const nextQuestionLogic = (data) => {
+    // dispatch(setAnswersForQuestion({ questionId: question.id, data: data }));
+    cacheAnswers(data);
+    loadNextQuestion();
+  };
+
+  const previousQuestionLogic = (data) => {
+    // dispatch(setAnswersForQuestion({ questionId: question.id, data: data }));
+    cacheAnswers(data);
+    loadNextQuestion();
+  };
+
+  const cacheAnswers = (data) => {
+    localStorage.setItem(`${params.id}_answers`, JSON.stringify(data));
+  };
+
+  const readCache = () =>
+    JSON.parse(localStorage.getItem(`${params.id}_answers`));
+
+  const givenAnswers = givenAnswersSelector.filter(
+    (answer) => answer.questionId === question.id
+  );
+
   return (
     <div
       style={{
@@ -32,8 +57,14 @@ const TakeTest = () => {
         maxWidth: "40%",
       }}
     >
-      {selectedTest && renderQuestions()}
-      <button className="btn btn-primary mt-5">Submit</button>
+      {question && (
+        <SingleQuestionCard
+          question={question}
+          nextQuestionLogic={nextQuestionLogic}
+          previousQuestionLogic={previousQuestionLogic}
+          givenAnswers={givenAnswersSelector}
+        />
+      )}
     </div>
   );
 };

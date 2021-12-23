@@ -10,7 +10,6 @@ class TestHistory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     total_points = models.FloatField(blank=True, null=True)
-    mark = models.IntegerField(blank=True, null=True)
     test_status = models.CharField(
         max_length=10,
         choices=StatusOfTestList.choices,
