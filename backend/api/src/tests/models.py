@@ -1,7 +1,11 @@
+from typing import List
+
 from django.db import models
 import uuid
 from src.users.models import User
 from src.sections.models import Section
+
+from src.questions.models import Question
 
 
 class Test(models.Model):
@@ -14,3 +18,10 @@ class Test(models.Model):
 
     def __str__(self):
         return self.identifier
+
+    def get_all_questions(self) -> List[Question]:
+        all_questions = []
+        for section in self.sections.all():
+            for question in section.questions.all():
+                all_questions.append(question)
+        return all_questions

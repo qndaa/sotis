@@ -8,6 +8,8 @@ const PAGE_ROUTES = {
   CREATE_SECTION: "/create-section",
   CANVAS: "/canvas",
   KNOWLEDGE_SPACES: "/knowledge-spaces/:testId",
+  KNOWLEDGE_STATES:
+    "/knowledge-state/student/:studentId/test/:testId/th/:testHistoryId",
   FORBIDDEN: "/forbidden",
   NOT_FOUND: "/not-found",
 };

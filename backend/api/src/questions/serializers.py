@@ -9,7 +9,12 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class FetchQuestionSerializer(serializers.ModelSerializer):
+    count = serializers.SerializerMethodField()
+
     class Meta:
         model = Question
-        exclude = ("correct_answers",)
+        fields = '__all__'
         depth = 1
+
+    def get_count(self, instance):
+        return self.context.get("count", 0)

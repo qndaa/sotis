@@ -15,6 +15,7 @@ const ROUTES = {
   SAVE_TEST: "/tests/",
   SAVE_CONNECTION: "/connections/",
   KNOWLEDGE_SPACES: "/knowledge-spaces/",
+  TEST_HISTORIES: "/test-history/",
 };
 
 class TestService {
@@ -157,12 +158,12 @@ class TestService {
     return connection;
   };
 
-  nextQuestion = async (test_id, question_id) => {
+  nextQuestion = async (test_id, question_id, reverse) => {
     return await this.client({
       method: "GET",
       url: `${ROUTES.SAVE_TEST}${test_id}/next/${
         question_id ? `${question_id}/` : ""
-      }`,
+      }${reverse ? "true/" : ""}`,
     });
   };
 
@@ -170,6 +171,28 @@ class TestService {
     return await this.client({
       method: "GET",
       url: `${ROUTES.KNOWLEDGE_SPACES}for-test/${testId}/`,
+    });
+  };
+
+  getTestHistoriesForStudent = async (studentId) => {
+    return await this.client({
+      method: "GET",
+      url: `${ROUTES.TEST_HISTORIES}for-student/${studentId}/`,
+    });
+  };
+
+  getCorrectAnswersForStudent = async (studentId, testId) => {
+    return await this.client({
+      method: "GET",
+      url: `${ROUTES.TEST_HISTORIES}${testId}/correct-answers-for-student/${studentId}/`,
+    });
+  };
+
+  createTestHistory = async (data) => {
+    return await this.client({
+      method: "POST",
+      url: `${ROUTES.TEST_HISTORIES}`,
+      data,
     });
   };
 

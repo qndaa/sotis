@@ -17,6 +17,7 @@ import CreateNewTest from "./tests/CreateNewTest";
 import TakeTest from "./tests/TakeTest";
 import Canvas from "./canvas";
 import KnowledgeSpacePage from "../containers/KnowledgeSpacesPage";
+import KnowledgeStatePage from "../containers/KnowledgeStatePage";
 // import CreateQuestion from "./tests/CreateQuestion";
 
 export default function App(props) {
@@ -62,6 +63,11 @@ export default function App(props) {
                   path={PAGE_ROUTES.KNOWLEDGE_SPACES}
                   exact
                   element={<KnowledgeSpacePage />}
+                ></Route>
+                <Route
+                  path={PAGE_ROUTES.KNOWLEDGE_STATES}
+                  exact
+                  element={<KnowledgeStatePage />}
                 ></Route>
                 <Route path={PAGE_ROUTES.CANVAS} exact element={<Canvas />} />
                 <Route

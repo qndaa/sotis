@@ -13,6 +13,9 @@ const Canvas = ({
   questionsFromServer,
   connectionsFromServer,
   buttonsVisible,
+  stateMode,
+  correctAnswers,
+  renderStateOnly,
 }) => {
   const [questions, setQuestions] = React.useState([]);
   const [problems, setProblems] = useState([]);
@@ -31,13 +34,6 @@ const Canvas = ({
 
     questionsFromServer &&
       questionsFromServer.forEach((question) => {
-        console.log(
-          problems[
-            problems.findIndex(
-              (singleDomain) => singleDomain.id == question.domain_id
-            )
-          ]
-        );
         addQuestion(
           question,
           problems[
@@ -73,6 +69,9 @@ const Canvas = ({
 
   //   return arrows;
   // };
+
+  const questionAnsweredCorrectly = (questionId) =>
+    correctAnswers.includes(questionId);
 
   const addQuestion = (question, problem) => {
     questions.push({
@@ -146,6 +145,45 @@ const Canvas = ({
     }
   };
 
+  const renderQuestions = (question) => {
+    if (
+      (renderStateOnly && questionAnsweredCorrectly(question.id)) ||
+      !renderStateOnly
+    )
+      return (
+        <>
+          <Text text={question.name} x={question.x + 15} y={question.y + 15} />
+          <Circle
+            key={question.id}
+            id={question.id}
+            x={question.x}
+            y={question.y}
+            radius={20}
+            numPoints={5}
+            // innerRadius={20}
+            // outerRadius={40}
+            fill={`${
+              stateMode && questionAnsweredCorrectly(question.id)
+                ? "#29ff70"
+                : "#3d72a6"
+            }`}
+            opacity={0.8}
+            draggable
+            rotation={question.rotation}
+            shadowColor="black"
+            shadowBlur={10}
+            shadowOpacity={0.6}
+            shadowOffsetX={question.isDragging ? 10 : 5}
+            shadowOffsetY={question.isDragging ? 10 : 5}
+            scaleX={question.isDragging ? 1.2 : 1}
+            scaleY={question.isDragging ? 1.2 : 1}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+        </>
+      );
+  };
+
   const handleDragStart = (e) => {
     const id = e.target.id();
     setQuestions(
@@ -185,6 +223,7 @@ const Canvas = ({
       >
         Add a node
       </Button> */}
+
       {buttonsVisible && (
         <CanvasMenu
           addQuestion={() => setQuestionPopupVisible(true)}
@@ -227,36 +266,7 @@ const Canvas = ({
         ref={stageRef}
       >
         {questions && (
-          <Layer>
-            {questions.map((star) => (
-              <>
-                <Text text={star.name} x={star.x + 15} y={star.y + 15} />
-                <Circle
-                  key={star.id}
-                  id={star.id}
-                  x={star.x}
-                  y={star.y}
-                  radius={20}
-                  numPoints={5}
-                  // innerRadius={20}
-                  // outerRadius={40}
-                  fill="#3d72a6"
-                  opacity={0.8}
-                  draggable
-                  rotation={star.rotation}
-                  shadowColor="black"
-                  shadowBlur={10}
-                  shadowOpacity={0.6}
-                  shadowOffsetX={star.isDragging ? 10 : 5}
-                  shadowOffsetY={star.isDragging ? 10 : 5}
-                  scaleX={star.isDragging ? 1.2 : 1}
-                  scaleY={star.isDragging ? 1.2 : 1}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
-                />
-              </>
-            ))}
-          </Layer>
+          <Layer>{questions.map((star) => renderQuestions(star))}</Layer>
         )}
         <Layer>
           {connections.map((connection) => (

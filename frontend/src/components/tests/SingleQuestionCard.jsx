@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import { Card, InputGroup } from "react-bootstrap";
+import React, { useRef } from "react";
+import { Card } from "react-bootstrap";
 import { Formik, Field, Form } from "formik";
 
 const SingleQuestionCard = ({
@@ -8,12 +8,13 @@ const SingleQuestionCard = ({
   nextQuestionLogic,
   previousQuestionLogic,
   givenAnswers,
+  firstQuestionId,
+  submitLogic,
+  totalTestLength,
 }) => {
   const formik = useRef();
 
-  useEffect(() => {
-    console.log(formik.current.values);
-  }, [givenAnswers]);
+  const renderNextButton = () => identifier !== totalTestLength;
 
   const renderAnswers = () => {
     // console.log(
@@ -33,6 +34,8 @@ const SingleQuestionCard = ({
     ));
   };
 
+  const isFirstQuestion = () => firstQuestionId === question.id;
+
   return (
     <>
       {question && (
@@ -49,30 +52,45 @@ const SingleQuestionCard = ({
             <Card className="mb-2">
               <Card.Header>
                 <b>
-                  {question.identifier}. {question.text}
+                  {identifier}. {question.text}
                 </b>
               </Card.Header>
               <Card.Body>{renderAnswers()}</Card.Body>
             </Card>
             <div className="d-flex justify-content-between mt-3">
-              <button
-                className="btn btn-primary"
-                type="button"
-                name="action"
-                value="previous"
-                onClick={() => {
-                  previousQuestionLogic(formik.current.values);
-                }}
-              >
-                Previous
-              </button>
+              {!isFirstQuestion() && (
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                  name="action"
+                  value="previous"
+                  onClick={() => {
+                    previousQuestionLogic(formik.current.values);
+                  }}
+                >
+                  Previous
+                </button>
+              )}
+              {renderNextButton() && (
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  name="action"
+                  value="next"
+                >
+                  Next
+                </button>
+              )}
               <button
                 className="btn btn-success"
-                type="submit"
                 name="action"
                 value="next"
+                onClick={() => {
+                  submitLogic(formik.current.values);
+                }}
+                type="button"
               >
-                Next
+                Finish Test
               </button>
             </div>
           </Form>

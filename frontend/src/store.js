@@ -14,7 +14,8 @@ const middleware = [sagaMiddleware, thunk];
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(...middleware))
+  applyMiddleware(...middleware)
+  // composeWithDevTools(applyMiddleware(...middleware))
 );
 
 sagaMiddleware.run(rootSaga);

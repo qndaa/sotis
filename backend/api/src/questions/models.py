@@ -1,3 +1,5 @@
+from typing import List
+
 from django.db import models
 import uuid
 from ..answers.models import Answer
@@ -19,7 +21,7 @@ class Question(models.Model):
     min_choices = models.IntegerField(blank=True, null=True)
     max_choices = models.IntegerField(blank=True, null=True)
     value = models.FloatField(blank=True, null=True)
-    correct_answers = models.ManyToManyField(Answer, related_name="correct")
+    max_correct_answers = models.IntegerField(default=1)
     all_answers = models.ManyToManyField(Answer, related_name="questions", blank=True)
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True
@@ -27,3 +29,11 @@ class Question(models.Model):
     domain = models.ForeignKey(
         Domain, on_delete=models.CASCADE, blank=True, null=True
     )
+
+    def answered_correctly(self, answers: List[Answer]) -> bool:
+        correct_answers = [answer for answer in answers if answer.is_correct]
+        return self.max_correct_answers == len(correct_answers)
+
+    def calculate_points(self, answers: List[Answer]) -> float:
+        correct_answers = [answer for answer in answers if answer.is_correct]
+        return (self.value / (self.max_correct_answers/len(correct_answers))) if len(correct_answers) > 0 else 0
