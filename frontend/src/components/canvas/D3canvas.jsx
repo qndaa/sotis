@@ -32,6 +32,9 @@ const D3canvas = ({
   };
 
   useEffect(() => {
+    console.log(domains);
+    console.log(connections);
+    console.log(questions);
     domains &&
       connections &&
       questions &&
@@ -75,56 +78,57 @@ const D3canvas = ({
     if (renderable) {
       console.log(data);
       return (
-        <Graph
-          id="graph-id" // id is mandatory
-          data={data ? data : mockData}
-          config={myConfig}
-          onClickNode={onClickNode}
-          onClickLink={onClickLink}
-        />
+        data && (
+          <Graph
+            id="graph-id" // id is mandatory
+            data={data ? data : mockData}
+            config={myConfig}
+            onClickNode={onClickNode}
+            onClickLink={onClickLink}
+          />
+        )
       );
     }
   };
 
   // the graph configuration, just override the ones you need
   const myConfig = {
-    automaticRearrangeAfterDropNode: false,
+    automaticRearrangeAfterDropNode: true,
     collapsible: false,
     directed: false,
     focusAnimationDuration: 0.75,
     focusZoom: 1,
     freezeAllDragEvents: false,
     height: 400,
-    highlightDegree: 1,
-    highlightOpacity: 1,
-    linkHighlightBehavior: false,
-    maxZoom: 10,
-    minZoom: 0.1,
-    nodeHighlightBehavior: false,
+    highlightDegree: 2,
+    highlightOpacity: 0.2,
+    linkHighlightBehavior: true,
+    maxZoom: 12,
+    minZoom: 0.05,
+    nodeHighlightBehavior: true,
     panAndZoom: false,
     staticGraph: false,
     staticGraphWithDragAndDrop: false,
     width: 800,
     d3: {
       alphaTarget: 0.05,
-      gravity: -100,
-      linkLength: 100,
-      linkStrength: 1,
+      gravity: -250,
+      linkLength: 120,
+      linkStrength: 2,
       disableLinkForce: false,
     },
     node: {
-      color: "lightblue",
+      color: "#d3d3d3",
       fontColor: "black",
-      fontSize: 8,
+      fontSize: 10,
       fontWeight: "normal",
-      highlightColor: "SAME",
-      highlightFontSize: 8,
-      highlightFontWeight: "normal",
-      highlightStrokeColor: "SAME",
-      highlightStrokeWidth: "SAME",
-      labelProperty: "id",
-      mouseCursor: "pointer",
-      opacity: 1,
+      highlightColor: "red",
+      highlightFontSize: 14,
+      highlightFontWeight: "bold",
+      highlightStrokeColor: "red",
+      highlightStrokeWidth: 1.5,
+      mouseCursor: "crosshair",
+      opacity: 0.9,
       renderLabel: true,
       size: 200,
       strokeColor: "none",
@@ -133,19 +137,19 @@ const D3canvas = ({
       symbolType: "circle",
     },
     link: {
-      color: "#d3d3d3",
+      color: "lightgray",
       fontColor: "black",
       fontSize: 8,
       fontWeight: "normal",
-      highlightColor: "SAME",
+      highlightColor: "red",
       highlightFontSize: 8,
       highlightFontWeight: "normal",
       labelProperty: "label",
       mouseCursor: "pointer",
       opacity: 1,
       renderLabel: false,
-      semanticStrokeWidth: false,
-      strokeWidth: 1.5,
+      semanticStrokeWidth: true,
+      strokeWidth: 3,
       markerHeight: 6,
       markerWidth: 6,
       strokeDasharray: 0,

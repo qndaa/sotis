@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "./store/actions/auth";
+import authService from "../services/authentication/AuthenticationService";
 
 export default function () {
   const dispatch = useDispatch();
@@ -28,7 +29,13 @@ export default function () {
     //         toast.error("Invalid username or password!");
     //     });
 
-    dispatch(login(data.username, data.password));
+    // dispatch(login(data.username, data.password));
+    authService
+      .login({ email: data.username, password: data.password })
+      .then((response) => {
+        localStorage.setItem("token", response.data.access);
+        localStorage.setItem("refreshToken", response.data.refresh);
+      });
   };
 
   return (

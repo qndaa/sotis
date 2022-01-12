@@ -75,9 +75,9 @@ export default function App(props) {
                   exact
                   element={<Error code={403} title={`Forbidden Page`} />}
                 />
-                <Route exact path={PAGE_ROUTES.NOT_FOUND}>
+                {/* <Route exact path={PAGE_ROUTES.NOT_FOUND}>
                   <Error code={404} title={`Page Not Found`} />
-                </Route>
+                </Route> */}
               </Routes>
             </div>
           </div>

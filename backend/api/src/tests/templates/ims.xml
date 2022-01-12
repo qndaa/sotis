@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qti-assessment-test xmlns="http://www.imsglobal.org/xsd/imsqti_v3p0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+identifier={{ test_name }}
+title={{ title }}
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v3p0
+https://purl.imsglobal.org/spec/qti/v3p0/xsd/imsqti_asiv3p0_v1p0.xsd"
+xml:lang="en-US" >
+    <qti-test-part identifier="testPart-1" navigation-mode="nonlinear"
+   submission-mode="individual">
+    {% for section in sections %}
+        <qti-assessment-section identifier="{{ section.identifier }}" title="{{ section.title }}" visible="true">
+            {% for item in section.questions.all %}
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier={{ item.identifier }}
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                {% for answer in item.get_correct_answers %}
+                   <qti-correct-response>
+                     <qti-value>{{ answer.identifier }}</qti-value>
+                   </qti-correct-response>
+                    {% endfor %}
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>{{ item.value }}</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>{{ item.text }}</p>
+                  <qti-choice-interaction max-choices={{ item.max_choices }} min-choices={{ item.miin_choices }}
+                  response-identifier="RESPONSE">
+                      {% for answer in item.all_answers.all %}
+                    <qti-simple-choice identifier={{ answer.identifier }}>{{ answer.text }}</qti-simple-choice>
+                      {% endfor %}
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            {% endfor %}
+        </qti-assessment-section>
+    {% endfor %}
+    </qti-test-part>
+</qti-assessment-test>

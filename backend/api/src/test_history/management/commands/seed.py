@@ -81,7 +81,6 @@ class Command(BaseCommand):
             value=33,
             created_by=teacher,
         )
-        question_1.correct_answers.set(correct_answers_q1)
         question_1.all_answers.set(answers_q1)
 
         question_2 = Question.objects.create(
@@ -93,7 +92,6 @@ class Command(BaseCommand):
             value=33,
             created_by=teacher,
         )
-        question_2.correct_answers.set(correct_answers_q2)
         question_2.all_answers.set(answers_q2)
 
         question_3 = Question.objects.create(
@@ -105,7 +103,6 @@ class Command(BaseCommand):
             value=33,
             created_by=teacher,
         )
-        question_3.correct_answers.set(correct_answers_q3)
         question_3.all_answers.set(answers_q3)
 
         section_1 = Section.objects.create(

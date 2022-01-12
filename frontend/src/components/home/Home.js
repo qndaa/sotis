@@ -6,51 +6,51 @@ import { getDecodedJWT } from "../../utils/LocalStorage";
 import studentService from "../../services/users/StudentService";
 import TestSelectForUserDialog from "../tests/TestSelectForUserDialog";
 import testService from "../../services/tests/TestService";
+import QtiDialog from "./QtiDialog";
 
 export default () => {
   const [tests, setTests] = useState([]);
   const [students, setStudents] = useState([]);
   const [testHistoriesForStudent, setTestHistoriesForStudent] = useState([]);
   const [selectedStudentId, setSelectedStudentId] = useState(null);
-  const [isStaff, setIsStaff] = useState(
-    getDecodedJWT() && getDecodedJWT()["is_staff"]
-  );
-  const [isAdmin, setIsAdmin] = useState(
-    getDecodedJWT() && getDecodedJWT()["is_superuser"]
-  );
+  const [isStaff, setIsStaff] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [showTestSelect, setShowTestSelect] = useState(false);
+  const [showTemplateDialog, setShowTemplateDialog] = useState(false);
+  const [template, setTemplate] = useState("");
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/v1/tests/")
-      .then((response) => {
-        setTests(response.data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  useEffect(async () => {
+    console.log("Rerendering");
+    const [testsServer, studentsServer] = await Promise.all([
+      axios.get("http://localhost:8000/api/v1/tests/"),
+      axios.get("http://localhost:8000/api/v1/users/students/"),
+    ]);
 
-    studentService
-      .getAllStudents()
-      .then((response) => setStudents(response.data));
+    setTests(testsServer.data.results);
+    setStudents(studentsServer.data);
   }, []);
 
   const renderTests = () => {
-    return tests.map((t, i) => {
-      return (
-        <tr key={i}>
-          <td>{i + 1}</td>
-          <td>{t.identifier}</td>
-          <td>{t.author.first_name}</td>
-          <td>{t.author.last_name}</td>
-          <td>{t.author.email}</td>
-          {renderSpecActions(t)}
-        </tr>
-      );
-    });
+    return (
+      tests &&
+      tests.map((t, i) => {
+        return (
+          <tr key={i}>
+            <td>{i + 1}</td>
+            <td>{t.identifier}</td>
+            <td>{t.author.first_name}</td>
+            <td>{t.author.last_name}</td>
+            <td>{t.author.email}</td>
+            {renderSpecActions(t)}
+          </tr>
+        );
+      })
+    );
   };
 
   const renderStudents = () =>
+    // studentService.getAllStudents().then((res) => {
+    // const students = res.data;
     students &&
     students.map((student, i) => (
       <tr key={i}>
@@ -62,6 +62,7 @@ export default () => {
           <button
             className="btn btn-success"
             onClick={() => {
+              console.log("HERE");
               setShowTestSelect(true);
               testService.getTestHistoriesForStudent(student.id).then((res) => {
                 setTestHistoriesForStudent(res.data);
@@ -74,6 +75,15 @@ export default () => {
         </td>
       </tr>
     ));
+  // });
+
+  const getQti = (testId) => {
+    testService.getQti(testId).then((res) => {
+      console.log(template);
+      setTemplate(res.data.template);
+      setShowTemplateDialog(true);
+    });
+  };
 
   const renderSpecActions = (test) => {
     if (isAdmin) {
@@ -94,6 +104,14 @@ export default () => {
             <a className={`btn btn-success`} href={`take-test/${test.id}`}>
               Take test
             </a>
+          </td>
+          <td>
+            <button
+              onClick={() => getQti(test.id)}
+              className={`btn btn-success`}
+            >
+              Get XML
+            </button>
           </td>
         </>
       );
@@ -124,6 +142,7 @@ export default () => {
         <th>Actions</th>
         <th>Knowledge space</th>
         <th>Take test</th>
+        <th>Get QTI</th>
       </>
     );
     // }
@@ -131,6 +150,11 @@ export default () => {
 
   return (
     <>
+      <QtiDialog
+        show={showTemplateDialog}
+        setShow={setShowTemplateDialog}
+        template={template}
+      ></QtiDialog>
       <TestSelectForUserDialog
         show={showTestSelect}
         handleClose={() => {

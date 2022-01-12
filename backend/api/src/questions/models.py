@@ -34,6 +34,9 @@ class Question(models.Model):
         correct_answers = [answer for answer in answers if answer.is_correct]
         return self.max_correct_answers == len(correct_answers)
 
+    def get_correct_answers(self):
+        return [answer for answer in self.all_answers.filter(is_correct=True).all()]
+
     def calculate_points(self, answers: List[Answer]) -> float:
         correct_answers = [answer for answer in answers if answer.is_correct]
         return (self.value / (self.max_correct_answers/len(correct_answers))) if len(correct_answers) > 0 else 0

@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import rootReducer from "./components/store/reducers";
 import createSagaMiddleware from "redux-saga";
@@ -19,7 +18,7 @@ const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
-store.runSaga = sagaMiddleware.run;
+// store.runSaga = sagaMiddleware.run;
 store.injectedReducers = {};
 store.injectedSagas = {};
 

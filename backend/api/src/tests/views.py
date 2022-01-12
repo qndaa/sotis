@@ -1,6 +1,7 @@
 import random
 from typing import List
 
+from django.template import loader
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -42,6 +43,17 @@ class TestViewSet(ModelViewSet, ListModelMixin):
         queryset = self.get_queryset().get(id=pk)
         serializer = serializer_class(queryset)
         return Response(serializer.data)
+
+    @action(detail=True, methods={'GET'}, url_path=r"get-ims")
+    def get_ims(self, request, pk):
+        test = self.get_queryset().filter(id=pk).first()
+        template = loader.get_template('ims.xml')
+        context = {
+            'test_name': test.identifier,
+            'items': test.get_all_questions(),
+            'sections': test.sections.all()
+        }
+        return Response({'template': template.render(context, request)})
 
     @action(detail=True, methods={'GET'}, url_path=r"next/?(?P<current_question_id>[^/.]*)/?(?P<reverse>[^/.]*)")
     def next_question(self, request, pk, current_question_id=None, reverse=False):

@@ -1,4 +1,4 @@
-import { client } from "../HttpClient";
+import authService from "../authentication/AuthenticationService";
 
 const ROUTES = {
   USERS: "/users/",
@@ -7,19 +7,14 @@ const ROUTES = {
 
 class StudentService {
   constructor() {
-    this.client = client;
-    this.init();
+    this.client = authService.client;
   }
 
-  init = () => {};
-
   getAllStudents = async () => {
-    const allStudents = await this.client({
+    return await this.client({
       method: "GET",
       url: ROUTES.GET_ALL_STUDENTS,
     });
-
-    return allStudents;
   };
 }
 
