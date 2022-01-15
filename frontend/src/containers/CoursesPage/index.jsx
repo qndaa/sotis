@@ -12,7 +12,19 @@ const Courses = () => {
   }, []);
 
   const renderCourses = () => {
-    return courses.map((course) => {
+    const sorted = courses.sort((a, b) => {
+      let fa = a.name.toLowerCase(),
+        fb = b.name.toLowerCase();
+
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    });
+    return sorted.map((course) => {
       return (
         <a href={`/home/${course.id}`} class="card-link">
           <div className="card" style={{ width: "18rem" }}>

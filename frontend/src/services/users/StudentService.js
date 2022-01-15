@@ -20,7 +20,8 @@ class StudentService {
   getStudentsForCourse = async (courseId) => {
     return await this.client({
       method: "GET",
-      url: `${ROUTES.USERS}?course=${courseId}&student=true`,
+      // url: `${ROUTES.USERS}?course=${courseId}&student=true`,
+      url: `${ROUTES.USERS}?course=${courseId}`,
     });
   };
 }

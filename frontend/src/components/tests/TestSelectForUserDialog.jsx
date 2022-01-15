@@ -22,7 +22,7 @@ const TestSelectForUserDialog = ({
             <b>{test.total_points}</b> out of {test.max_points}
           </td>
           <a
-            href={`knowledge-state/student/${studentId}/test/${test.test}/th/${test.id}`}
+            href={`../knowledge-state/student/${studentId}/test/${test.test}/th/${test.id}`}
           >
             <button className="btn btn-success m-2">
               View knowledge state

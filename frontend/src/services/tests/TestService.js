@@ -128,10 +128,10 @@ class TestService {
     });
   };
 
-  getTestHistoriesForStudent = async (studentId) => {
+  getTestHistoriesForStudent = async (studentId, courseId) => {
     return await this.client({
       method: "GET",
-      url: `${ROUTES.TEST_HISTORIES}for-student/${studentId}/`,
+      url: `${ROUTES.TEST_HISTORIES}for-student/${studentId}/?course=${courseId}`,
     });
   };
 

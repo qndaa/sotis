@@ -67,10 +67,12 @@ export default () => {
             onClick={() => {
               console.log("HERE");
               setShowTestSelect(true);
-              testService.getTestHistoriesForStudent(student.id).then((res) => {
-                setTestHistoriesForStudent(res.data);
-                setSelectedStudentId(student.id);
-              });
+              testService
+                .getTestHistoriesForStudent(student.id, course)
+                .then((res) => {
+                  setTestHistoriesForStudent(res.data);
+                  setSelectedStudentId(student.id);
+                });
             }}
           >
             View state

@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faPlus, faBong } from "@fortawesome/free-solid-svg-icons";
 import PAGE_ROUTES from "../../pageRoutes";
 
 export default function () {
@@ -12,6 +12,13 @@ export default function () {
       id="accordionSidebar"
     >
       <Logo />
+      <hr className="sidebar-divider my-0" />
+      <li className="nav-item active">
+        <Link className="nav-link" to={PAGE_ROUTES.CHOOSE_COURSE}>
+          <FontAwesomeIcon icon={faBong} className={`mr-2`} />
+          <span>Choose course</span>
+        </Link>
+      </li>
       <hr className="sidebar-divider my-0" />
       <li className="nav-item active">
         <Link className="nav-link" to={`/home`}>
@@ -40,12 +47,14 @@ export default function () {
           <span>Create Section</span>
         </Link>
       </li>
+      <hr className="sidebar-divider my-0" />
       <li className="nav-item active">
         <Link className="nav-link" to={PAGE_ROUTES.CANVAS}>
           <FontAwesomeIcon icon={faPlus} className={`mr-2`} />
           <span>Canvas</span>
         </Link>
       </li>
+
       <hr className="sidebar-divider my-0" />
     </ul>
   );

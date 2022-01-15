@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
 from .constants import StatusOfTestList
+from .filters import TestHistoryFilter
 from .models import TestHistory
 from .serializers import TestHistorySerializer, ListTestHistorySerializer
 from rest_framework.response import Response
@@ -39,6 +40,7 @@ class TestHistoryViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = TestHistorySerializer
     queryset = TestHistory.objects.all()
+    filterset_class = TestHistoryFilter
 
     def retrieve(self, request):
         queryset = TestHistory.objects.filter(student_id=request.id)
@@ -58,7 +60,7 @@ class TestHistoryViewSet(ModelViewSet):
 
     @action(detail=False, methods=["get"], url_path=r"for-student/?(?P<student_id>[^/.]*)")
     def get_for_student(self, request, student_id):
-        queryset = self.get_queryset().filter(student=student_id)
+        queryset = self.filter_queryset(self.get_queryset().filter(student=student_id))
         serializer = ListTestHistorySerializer(queryset, many=True)
         return Response(serializer.data)
 
