@@ -100,13 +100,13 @@ export default () => {
           <td>
             <a
               className={`btn btn-success`}
-              href={`knowledge-spaces/${test.id}`}
+              href={`../knowledge-spaces/${test.id}`}
             >
               View knowledge space
             </a>
           </td>
           <td>
-            <a className={`btn btn-success`} href={`take-test/${test.id}`}>
+            <a className={`btn btn-success`} href={`../take-test/${test.id}`}>
               Take test
             </a>
           </td>
