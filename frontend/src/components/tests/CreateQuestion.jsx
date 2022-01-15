@@ -30,8 +30,6 @@ const CreateQuestion = () => {
   const [answerModalVisible, setAnswerModalVisible] = useState(false);
   const [answerText, setAnswerText] = useState("");
   const [answers, setAnswers] = useState([]);
-  const [questionText, setQuestionText] = useState("");
-  const [value, setValue] = useState(0);
 
   // const showSuccessToast = useSelector((state) => state.tests.showSuccessToast);
 
@@ -39,7 +37,10 @@ const CreateQuestion = () => {
   //   dispatch(closeSuccessToast());
   // };
 
-  const submitNewQuestion = () => {
+  const submitNewQuestion = (data) => {
+    const questionText = data.text;
+    const value = data.value;
+
     const allAnswers = [];
     answersWithIds.forEach((answer) => allAnswers.push(answer.id));
     const correctAnswers = [];
@@ -47,10 +48,7 @@ const CreateQuestion = () => {
       answer.isCorrect && correctAnswers.push(answer.text);
     });
 
-    console.log(correctAnswers);
-
     const correctAnswersWithIds = answersWithIds.filter((answer) => {
-      console.log(answer.identifier);
       return correctAnswers.includes(answer.text);
     });
 
@@ -59,30 +57,38 @@ const CreateQuestion = () => {
       correctAnswerIds.push(answer.id);
     });
 
-    console.log(correctAnswersWithIds);
-
-    testService.createNewQuestion(
-      questionText,
-      0,
-      correctAnswers.length,
-      value,
+    testService.createNewQuestion({
+      text: questionText,
+      min_choices: 0,
+      max_choices: allAnswers.length,
+      max_correct_answers: correctAnswers.length,
+      value: value,
       correctAnswerIds,
-      allAnswers
-    );
+      all_answers: allAnswers,
+      time_dependant: false,
+    });
+
+    window.location.reload();
   };
 
-  const handleAnswerSave = (text) => {
+  const handleAnswerSave = (data, resetForm) => {
     answers.push({
       identifier: answers.length + 1,
-      text: text,
-      isCorrect: false,
+      text: data.answerText,
+      isCorrect: data.correct,
     });
-    testService.createNewAnswer({ text: text, identifier: answers.length + 1 });
+    testService.createNewAnswer({
+      text: data.answerText,
+      identifier: answers.length + 1,
+      is_correct: data.correct,
+    });
+
+    resetForm();
+    handleAnswerModalClose();
   };
 
   const handleAnswerModalClose = () => {
     setAnswerModalVisible(false);
-    setAnswerText("");
   };
 
   return (
@@ -99,36 +105,44 @@ const CreateQuestion = () => {
                         Create a question!
                       </h1>
                     </div>
-                    <form className="user " onSubmit={handleSubmit(submit)}>
+                    <form
+                      className="user "
+                      onSubmit={handleSubmit(submitNewQuestion)}
+                    >
                       <div className="form-group">
                         <textarea
-                          value={questionText}
-                          onChange={(e) => {
-                            setQuestionText(e.target.value);
-                            console.log(e.target.value);
-                          }}
                           className={`form-control rounded form-control-user`}
                           id="text"
                           placeholder="Enter question text..."
                           autoComplete={`false`}
+                          {...register("text", {
+                            required: "Text is required!",
+                            minLength: {
+                              value: 4,
+                              message: "Text is too short!",
+                            },
+                          })}
                         />
                       </div>
                       <div className="form-group">
                         <input
-                          value={value}
-                          onChange={(e) => setValue(e.target.value)}
                           type="number"
                           min="0"
                           className={`form-control rounded form-control-user`}
                           id="value"
                           placeholder="Enter question value here."
                           autoComplete={`false`}
+                          {...register("value", {
+                            required: "Value is required!",
+                          })}
                         />
                       </div>
 
-                      {/* <button className="btn btn-primary btn-user btn-block">
-                      Login
-                    </button> */}
+                      <div className="row justify-content-center mb-2">
+                        <button className="btn btn-primary" type="submit">
+                          Submit
+                        </button>
+                      </div>
                     </form>
                     <hr />
                   </div>
@@ -138,14 +152,16 @@ const CreateQuestion = () => {
           </div>
         </div>
       </div>
-      <button
-        className="btn btn-primary-outlined"
-        onClick={() => {
-          setAnswerModalVisible(true);
-        }}
-      >
-        Add an answer
-      </button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button
+          className="btn btn-primary-outlined"
+          onClick={() => {
+            setAnswerModalVisible(true);
+          }}
+        >
+          Add an answer
+        </button>
+      </div>
 
       <div className="d-flex justify-content-center">
         <NewAnswerModal
@@ -164,11 +180,6 @@ const CreateQuestion = () => {
         </>
       )}
 
-      <div className="row justify-content-center mb-2">
-        <button className="btn btn-primary" onClick={submitNewQuestion}>
-          Submit
-        </button>
-      </div>
       {/* <Toast
         title={"Success"}
         text={"Question successfully created!"}

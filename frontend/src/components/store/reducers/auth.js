@@ -12,7 +12,7 @@
 // };
 
 import ACTION_TYPES from "../actionTypes/auth";
-import {getTokens, removeTokens} from "../../../utils/LocalStorage";
+import { getTokens, removeTokens } from "../../../utils/LocalStorage";
 import produce from "immer";
 
 export const initialState = {
@@ -25,7 +25,6 @@ const authenticationReducer = (state = initialState, action) =>
     switch (action.type) {
       case ACTION_TYPES.SET_TOKEN:
         draft.tokens = action.tokens;
-        console.log(action.tokens);
         draft.loggedIn = true;
         break;
 

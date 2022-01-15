@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import PAGE_ROUTES from "../../pageRoutes";
 import courseService from "../../services/courses/courseService";
+import { useDispatch } from "react-redux";
+import { select } from "../../components/store/actions/courses";
+import { useNavigate } from "react-router-dom";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     courseService.getAllCourses().then((res) => {
@@ -26,25 +31,33 @@ const Courses = () => {
     });
     return sorted.map((course) => {
       return (
-        <a href={`/home/${course.id}`} class="card-link">
-          <div className="card" style={{ width: "18rem" }}>
-            <div
-              style={{
-                backgroundColor: course.color,
-                height: "5vh",
-                width: "100%",
+        <div className="card" style={{ width: "18rem" }}>
+          <div
+            style={{
+              backgroundColor: course.color,
+              height: "5vh",
+              width: "100%",
+            }}
+          ></div>
+          <div className="card-body">
+            <p
+              className="card-text"
+              style={{ textAlign: "center", textDecoration: "none" }}
+            >
+              {course.name}
+            </p>
+
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                dispatch(select(course.id));
+                navigate(`/home/${course.id}`);
               }}
-            ></div>
-            <div className="card-body">
-              <p
-                className="card-text"
-                style={{ textAlign: "center", textDecoration: "none" }}
-              >
-                {course.name}
-              </p>
-            </div>
+            >
+              View
+            </button>
           </div>
-        </a>
+        </div>
       );
     });
   };
