@@ -33,6 +33,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from src.knowledge_spaces.urls import knowledge_space_router
+from src.courses.urls import courses_router
 
 from src.users.views import CustomTokenObtainPairView
 
@@ -72,6 +73,7 @@ router.registry.extend(sectionsRouter.registry)
 router.registry.extend(testHistoryRouter.registry)
 router.registry.extend(connectionsRouter.registry)
 router.registry.extend(knowledge_space_router.registry)
+router.registry.extend(courses_router.registry)
 
 
 swagger_docs_view = get_swagger_view(title="SOTIS Api")

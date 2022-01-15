@@ -16,6 +16,15 @@ class TestService {
     console.log(this.client);
   }
 
+  getTestsForCourse = async (courseId) => {
+    const allTests = await this.client({
+      method: "GET",
+      url: `${ROUTES.SAVE_TEST}?course=${courseId}`,
+    });
+
+    return allTests;
+  };
+
   createNewAnswer = async (data) => {
     const newAnswer = await this.client({
       method: "POST",

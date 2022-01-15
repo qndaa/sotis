@@ -7,8 +7,10 @@ import studentService from "../../services/users/StudentService";
 import TestSelectForUserDialog from "../tests/TestSelectForUserDialog";
 import testService from "../../services/tests/TestService";
 import QtiDialog from "./QtiDialog";
+import { useParams } from "react-router-dom";
 
 export default () => {
+  const [course, setCourse] = useState(null);
   const [tests, setTests] = useState([]);
   const [students, setStudents] = useState([]);
   const [testHistoriesForStudent, setTestHistoriesForStudent] = useState([]);
@@ -18,17 +20,18 @@ export default () => {
   const [showTestSelect, setShowTestSelect] = useState(false);
   const [showTemplateDialog, setShowTemplateDialog] = useState(false);
   const [template, setTemplate] = useState("");
+  const params = useParams();
 
   useEffect(async () => {
-    console.log("Rerendering");
+    setCourse(params.courseId);
     const [testsServer, studentsServer] = await Promise.all([
-      axios.get("http://localhost:8000/api/v1/tests/"),
-      axios.get("http://localhost:8000/api/v1/users/students/"),
+      testService.getTestsForCourse(params.courseId),
+      studentService.getStudentsForCourse(params.courseId),
     ]);
 
     setTests(testsServer.data.results);
     setStudents(studentsServer.data);
-  }, []);
+  }, [params]);
 
   const renderTests = () => {
     return (

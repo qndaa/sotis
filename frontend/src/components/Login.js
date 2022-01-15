@@ -1,12 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "./store/actions/auth";
 import authService from "../services/authentication/AuthenticationService";
+import PAGE_ROUTES from "../pageRoutes";
 
 export default function () {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,7 +17,6 @@ export default function () {
   } = useForm();
 
   const submit = (data) => {
-    console.log(data);
     // dispatch(login(data.username, data.password))
     //     .then((response) => {
     //         if(response.blocked === "true") {
@@ -35,6 +36,12 @@ export default function () {
       .then((response) => {
         localStorage.setItem("token", response.data.access);
         localStorage.setItem("refreshToken", response.data.refresh);
+      })
+      .then(() => {
+        navigate(PAGE_ROUTES.CHOOSE_COURSE);
+      })
+      .catch(() => {
+        alert("Wrong username or password!");
       });
   };
 

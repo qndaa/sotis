@@ -6,6 +6,8 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.mixins import ListModelMixin
+
+from .filters import TestFilters
 from .models import Test
 from .serializers import FetchTestSerializer, TestSerializer
 from rest_framework.response import Response
@@ -20,6 +22,7 @@ class TestViewSet(ModelViewSet, ListModelMixin):
     ModelViewSet.permission_classes = (AllowAny, )
     permission_classes = (AllowAny,)
     queryset = Test.objects.all()
+    filterset_class = TestFilters
     serializers = {
         "default": TestSerializer,
         "retrieve": FetchTestSerializer,

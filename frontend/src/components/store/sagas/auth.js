@@ -3,6 +3,7 @@ import ACTION_TYPES from "../actionTypes/auth";
 import authService from "../../../services/authentication/AuthenticationService";
 import { setToken, setRefreshToken } from "../actions/auth";
 import PAGE_ROUTES from "../../../pageRoutes";
+import { push } from "react-router-redux";
 
 export function* login({ type, email, password }) {
   try {
@@ -11,8 +12,10 @@ export function* login({ type, email, password }) {
       yield put(setToken(tokens.data.access));
       yield put(setRefreshToken(tokens.data.refresh));
       // TODO: treba omoguciti ovako, ali ne radi sa react router v6+
-      // yield put(push(PAGE_ROUTES.HOME));
-      window.location.replace(window.location + PAGE_ROUTES.HOME);
+      // yield put(push(PAGE_ROUTES.CHOOSE_COURSE));
+      console.log("Here");
+      yield put(push(PAGE_ROUTES.CHOOSE_COURSE));
+      // window.location.replace(window.location + PAGE_ROUTES.HOME);
     } else {
       throw new Error("Login credentials are invalid!");
     }

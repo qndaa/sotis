@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django_filters',
     "rest_framework",
     "corsheaders",
     "data_seeder",
@@ -71,6 +72,7 @@ INSTALLED_APPS = [
     "src.test_history",
     "src.connections",
     "src.knowledge_spaces",
+    "src.courses",
 ]
 
 MIDDLEWARE = [

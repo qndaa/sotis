@@ -18,6 +18,7 @@ import TakeTest from "./tests/TakeTest";
 import Canvas from "./canvas";
 import KnowledgeSpacePage from "../containers/KnowledgeSpacesPage";
 import KnowledgeStatePage from "../containers/KnowledgeStatePage";
+import Courses from "../containers/CoursesPage";
 // import CreateQuestion from "./tests/CreateQuestion";
 
 export default function App(props) {
@@ -74,6 +75,11 @@ export default function App(props) {
                   path={PAGE_ROUTES.FORBIDDEN}
                   exact
                   element={<Error code={403} title={`Forbidden Page`} />}
+                />
+                <Route
+                  exact
+                  path={PAGE_ROUTES.CHOOSE_COURSE}
+                  element={<Courses />}
                 />
                 {/* <Route exact path={PAGE_ROUTES.NOT_FOUND}>
                   <Error code={404} title={`Page Not Found`} />

@@ -4,8 +4,8 @@ from django.db import models
 import uuid
 from src.users.models import User
 from src.sections.models import Section
-
 from src.questions.models import Question
+from src.courses.models import Course
 
 
 class Test(models.Model):
@@ -15,6 +15,7 @@ class Test(models.Model):
     sections = models.ManyToManyField(Section, blank=True)
     sort_by_ks = models.BooleanField(default=False)
     sort_by_computed_ks = models.BooleanField(default=False)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.identifier
