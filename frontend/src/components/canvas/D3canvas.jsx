@@ -32,9 +32,9 @@ const D3canvas = ({
   };
 
   useEffect(() => {
-    console.log(domains);
-    console.log(connections);
-    console.log(questions);
+    // console.log(domains);
+    // console.log(connections);
+    // console.log(questions);
     domains &&
       connections &&
       questions &&

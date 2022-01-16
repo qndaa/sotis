@@ -19,6 +19,7 @@ import Canvas from "./canvas";
 import KnowledgeSpacePage from "../containers/KnowledgeSpacesPage";
 import KnowledgeStatePage from "../containers/KnowledgeStatePage";
 import Courses from "../containers/CoursesPage";
+import CreateDomain from "./tests/CreateDomain";
 // import CreateQuestion from "./tests/CreateQuestion";
 
 export default function App(props) {
@@ -80,6 +81,11 @@ export default function App(props) {
                   exact
                   path={PAGE_ROUTES.CHOOSE_COURSE}
                   element={<Courses />}
+                />
+                <Route
+                  exact
+                  path={PAGE_ROUTES.CREATE_DOMAIN}
+                  element={<CreateDomain />}
                 />
                 {/* <Route exact path={PAGE_ROUTES.NOT_FOUND}>
                   <Error code={404} title={`Page Not Found`} />

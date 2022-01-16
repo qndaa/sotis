@@ -8,6 +8,8 @@ const ROUTES = {
   SAVE_CONNECTION: "/connections/",
   KNOWLEDGE_SPACES: "/knowledge-spaces/",
   TEST_HISTORIES: "/test-history/",
+  DOMAINS: "/domains/",
+  DOMAIN_CONNECTIONS: "/domain-connections/",
 };
 
 class TestService {
@@ -63,6 +65,26 @@ class TestService {
     });
 
     return newTest;
+  };
+
+  getDomains = async (data) => {
+    const allDomains = await this.client({
+      method: "GET",
+      url: ROUTES.DOMAINS,
+      data,
+    });
+
+    return allDomains;
+  };
+
+  saveDomain = async (data) => {
+    const newDomain = await this.client({
+      method: "POST",
+      url: ROUTES.DOMAINS,
+      data,
+    });
+
+    return newDomain;
   };
 
   getAllQuestions = async () => {
@@ -125,6 +147,14 @@ class TestService {
     return await this.client({
       method: "GET",
       url: `${ROUTES.KNOWLEDGE_SPACES}for-test/${testId}/`,
+    });
+  };
+
+  createDomainConnection = async (data) => {
+    return await this.client({
+      method: "POST",
+      url: `${ROUTES.DOMAIN_CONNECTIONS}`,
+      data,
     });
   };
 

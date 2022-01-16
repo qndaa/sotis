@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-from .models import Question
-from .serializers import FetchQuestionSerializer, QuestionSerializer
+from .models import Question, Domain
+from .serializers import FetchQuestionSerializer, QuestionSerializer, DomainSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -56,3 +56,8 @@ class QuestionViewSet(ModelViewSet):
     #     return Response(
     #         status=status.HTTP_200_OK,
     #     )
+
+
+class DomainViewSet(ModelViewSet):
+    queryset = Domain.objects.all()
+    serializer_class = DomainSerializer

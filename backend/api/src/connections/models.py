@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from .managers import DomainConnectionQuerySet
 from ..questions.models import Question, Domain
+from ..tests.models import Test
 
 
 class Connection(models.Model):
@@ -22,5 +23,6 @@ class DomainConnection(models.Model):
     to_node = models.ForeignKey(
         Domain, on_delete=models.CASCADE, related_name="end_domain"
     )
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, blank=True, null=True)
 
     objects = DomainConnectionQuerySet.as_manager()

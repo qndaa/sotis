@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Question
+from .models import Question, Domain
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -18,3 +18,8 @@ class FetchQuestionSerializer(serializers.ModelSerializer):
 
     def get_count(self, instance):
         return self.context.get("count", 0)
+
+class DomainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Domain
+        fields = '__all__'

@@ -3,12 +3,17 @@ import { useParams } from "react-router-dom";
 import testService from "../../services/tests/TestService";
 import Canvas from "../../components/canvas";
 import D3canvas from "../../components/canvas/D3canvas";
+import AddConnectionDialog from "../../components/canvas/AddConnectionDialog";
+import { useSelector } from "react-redux";
 
 const KnowledgeSpacePage = () => {
   const { testId } = useParams();
   const [computedKnowledgeSpace, setComputedKnowledgeSpace] = useState([]);
   const [drawnKnowledgeSpace, setDrawnKnowledgeSpace] = useState([]);
   const [comparisonMode, setComparisonMode] = useState(false);
+  const [showConnectionDialog, setConnectionDialog] = useState(false);
+  const courseId = useSelector((state) => state.courses.selectedCourse);
+
   useEffect(() => {
     if (testId) {
       testService.getKnowledgeSpacesForTest(testId).then((res) => {
@@ -17,6 +22,24 @@ const KnowledgeSpacePage = () => {
       });
     }
   }, [testId]);
+
+  const addConnection = (connection) => {
+    testService
+      .createDomainConnection({
+        from_node: connection.from_node,
+        to_node: connection.to_node,
+        course: courseId,
+      })
+      .then((res) => {
+        const newKS = drawnKnowledgeSpace;
+        newKS["domain_connections"] = [
+          ...drawnKnowledgeSpace.domain_connections,
+          res.data,
+        ];
+        console.log(newKS);
+        setDrawnKnowledgeSpace(newKS);
+      });
+  };
 
   const inBothConnections = () => {
     const drawnIds = drawnKnowledgeSpace.domain_connections.map(
@@ -177,7 +200,20 @@ const KnowledgeSpacePage = () => {
         </div>
         <div>
           <h2 className="mb-5">Drawn</h2>
-          <Canvas
+          <button
+            className="btn btn-outline-secondary"
+            onClick={() => setConnectionDialog(true)}
+          >
+            Add connection
+          </button>
+          <D3canvas
+            domains={drawnKnowledgeSpace && drawnKnowledgeSpace.domains}
+            connections={
+              drawnKnowledgeSpace && drawnKnowledgeSpace.domain_connections
+            }
+            questions={drawnKnowledgeSpace && drawnKnowledgeSpace.questions}
+          ></D3canvas>
+          {/* <Canvas
             buttonsVisible={false}
             domainsFromServer={
               drawnKnowledgeSpace && drawnKnowledgeSpace.domains
@@ -188,7 +224,15 @@ const KnowledgeSpacePage = () => {
             connectionsFromServer={
               drawnKnowledgeSpace && drawnKnowledgeSpace.domain_connections
             }
-          ></Canvas>
+          ></Canvas> */}
+          <AddConnectionDialog
+            show={showConnectionDialog}
+            setShow={setConnectionDialog}
+            submit={addConnection}
+            domains={
+              drawnKnowledgeSpace && [...new Set(drawnKnowledgeSpace.domains)]
+            }
+          ></AddConnectionDialog>
         </div>
       </div>
     </div>

@@ -5,9 +5,15 @@ import AllAnswersTable from "./AllAnswersTable";
 import testService from "../../services/tests/TestService";
 
 const CreateQuestion = () => {
-  let answersWithIds = [];
+  const [answerModalVisible, setAnswerModalVisible] = useState(false);
+  const [answerText, setAnswerText] = useState("");
+  const [answers, setAnswers] = useState([]);
+  const [allDomains, setAllDomains] = useState([]);
+
   useEffect(() => {
-    answersWithIds = testService.getAllAnswers();
+    testService
+      .getDomains()
+      .then((domains) => setAllDomains(domains.data.results));
   }, []);
 
   const {
@@ -16,10 +22,6 @@ const CreateQuestion = () => {
     reset,
     formState: { errors },
   } = useForm();
-
-  const [answerModalVisible, setAnswerModalVisible] = useState(false);
-  const [answerText, setAnswerText] = useState("");
-  const [answers, setAnswers] = useState([]);
 
   const submitNewQuestion = (data) => {
     const questionText = data.text;
@@ -40,6 +42,7 @@ const CreateQuestion = () => {
       correctAnswerIds,
       all_answers: allAnswers,
       time_dependant: false,
+      domain: data.domain,
     });
 
     resetPage();
@@ -49,6 +52,14 @@ const CreateQuestion = () => {
     reset();
     setAnswers([]);
   };
+
+  const renderDomainOptions = () =>
+    allDomains.length > 0 &&
+    allDomains.map((domain) => (
+      <option key={domain.id} value={domain.id}>
+        {domain.name}
+      </option>
+    ));
 
   const handleAnswerSave = (data, resetForm) => {
     testService
@@ -83,6 +94,7 @@ const CreateQuestion = () => {
                         Create a question!
                       </h1>
                     </div>
+
                     <form
                       className="user "
                       onSubmit={handleSubmit(submitNewQuestion)}
@@ -114,6 +126,19 @@ const CreateQuestion = () => {
                             required: "Value is required!",
                           })}
                         />
+                      </div>
+                      <label>Choose a domain:</label>
+                      <div className="form-group">
+                        <div className="d-flex justify-content-center">
+                          <select
+                            className="form-select"
+                            {...register("domain", {
+                              required: "Domain is required!",
+                            })}
+                          >
+                            {renderDomainOptions()}
+                          </select>
+                        </div>
                       </div>
 
                       <div className="row justify-content-center mb-2">

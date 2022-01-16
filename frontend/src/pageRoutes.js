@@ -13,6 +13,7 @@ const PAGE_ROUTES = {
   FORBIDDEN: "/forbidden",
   NOT_FOUND: "/not-found",
   CHOOSE_COURSE: "/choose-course",
+  CREATE_DOMAIN: "/create-domain",
 };
 
 export default PAGE_ROUTES;

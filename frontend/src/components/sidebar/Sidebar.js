@@ -45,6 +45,13 @@ export default function () {
       </li>
       <hr className="sidebar-divider my-0" />
       <li className="nav-item active">
+        <Link className="nav-link" to={PAGE_ROUTES.CREATE_DOMAIN}>
+          <FontAwesomeIcon icon={faPlus} className={`mr-2`} />
+          <span>Create Domain</span>
+        </Link>
+      </li>
+      <hr className="sidebar-divider my-0" />
+      <li className="nav-item active">
         <Link className="nav-link" to={PAGE_ROUTES.CREATE_SECTION}>
           <FontAwesomeIcon icon={faPlus} className={`mr-2`} />
           <span>Create Section</span>
