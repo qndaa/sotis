@@ -16,6 +16,8 @@ class Test(models.Model):
     sort_by_ks = models.BooleanField(default=False)
     sort_by_computed_ks = models.BooleanField(default=False)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
+    expiration_date = models.DateTimeField()
+    start_date = models.DateTimeField()
 
     def __str__(self):
         return self.identifier

@@ -90,6 +90,26 @@ export default () => {
     });
   };
 
+  const testActive = (test) =>
+    new Date(test.start_date) < new Date() &&
+    new Date() < new Date(test.expiration_date);
+
+  const renderTestNotActiveText = (test) => {
+    if (new Date(test.start_date) > new Date())
+      return `Test starts: ${new Date(
+        test.start_date
+      ).toLocaleDateString()} ${new Date(
+        test.start_date
+      ).toLocaleTimeString()}`;
+
+    if (new Date(test.expiration_date) < new Date())
+      return `Test expired: ${new Date(
+        test.expiration_date
+      ).toLocaleDateString()} ${new Date(
+        test.expiration_date
+      ).toLocaleTimeString()}`;
+  };
+
   const renderSpecActions = (test) => {
     if (isAdmin) {
       return (
@@ -106,9 +126,25 @@ export default () => {
             </a>
           </td>
           <td>
-            <a className={`btn btn-success`} href={`../take-test/${test.id}`}>
-              Take test
-            </a>
+            {testActive(test) ? (
+              <a
+                className={`btn btn-success`}
+                href={`../take-test/${test.id}`}
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title={`Expires: ${new Date(
+                  test.expiration_date
+                ).toLocaleDateString()}, ${new Date(
+                  test.expiration_date
+                ).toLocaleTimeString()}`}
+              >
+                Take test
+              </a>
+            ) : (
+              <span className="text-muted">
+                {renderTestNotActiveText(test)}
+              </span>
+            )}
           </td>
           <td>
             <button

@@ -27,6 +27,8 @@ const CreateNewTest = () => {
       identifier: values.testTitle,
       sections: selectedIds,
       course: selectedCourse,
+      start_date: values.startDate,
+      expiration_date: values.expirationDate,
     });
     setSelectedSections([]);
   };
@@ -45,7 +47,11 @@ const CreateNewTest = () => {
                     <h1 className="h4 text-gray-900 mb-4">Create a test!</h1>
                   </div>
                   <Formik
-                    initialValues={{ testTitle: "" }}
+                    initialValues={{
+                      testTitle: "",
+                      startDate: "",
+                      expirationDate: "",
+                    }}
                     onSubmit={(values, { resetForm }) => {
                       handleTestSave(values);
                       resetForm();
@@ -62,6 +68,31 @@ const CreateNewTest = () => {
                           name="testTitle"
                           required={true}
                         ></Field>
+                      </div>
+                      <div className="form-group">
+                        <div className="d-flex justify-content-center">
+                          <label>Available</label>
+                        </div>
+                        <div className="form-group">
+                          <label>From:</label>
+                          <Field
+                            type="datetime-local"
+                            className={`form-control form-control-user`}
+                            id="startDate"
+                            name="startDate"
+                            required={true}
+                          ></Field>
+                        </div>
+                        <div className="form-group">
+                          <label>To:</label>
+                          <Field
+                            type="datetime-local"
+                            className={`form-control form-control-user`}
+                            id="expirationDate"
+                            name="expirationDate"
+                            required={true}
+                          ></Field>
+                        </div>
                       </div>
                       <div
                         style={{ display: "flex", justifyContent: "center" }}
