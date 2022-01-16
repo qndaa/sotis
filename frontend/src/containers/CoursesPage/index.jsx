@@ -47,15 +47,17 @@ const Courses = () => {
               {course.name}
             </p>
 
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                dispatch(select(course.id));
-                navigate(`/home/${course.id}`);
-              }}
-            >
-              View
-            </button>
+            <div className="d-flex justify-content-center mt-2">
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  dispatch(select(course.id));
+                  navigate(`/home/${course.id}`);
+                }}
+              >
+                View
+              </button>
+            </div>
           </div>
         </div>
       );

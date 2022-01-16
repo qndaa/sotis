@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, connect, useSelector } from "react-redux";
-import { fetchAllQuestions, saveSection } from "../store/actions/tests";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllQuestions } from "../store/actions/tests";
 import AllQuestionsTable from "./AllQuestionsTable";
+import { Formik, Form, Field } from "formik";
+import testService from "../../services/tests/TestService";
 
 const CreateSections = () => {
-  const [sectionTitle, setSectionTitle] = useState("");
   const [formattedQuestions, setFormattedQuestions] = useState([]);
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const dispatch = useDispatch();
@@ -14,16 +15,20 @@ const CreateSections = () => {
     dispatch(fetchAllQuestions());
   }, []);
 
-  const handleSectionSave = () => {
+  const handleSectionSave = (values) => {
     const selected = [];
     allQuestions.forEach(
       (question, index) =>
         selectedQuestions[index] && selected.push(question.id)
     );
 
-    console.log(selected);
+    testService.saveSection({
+      title: values.sectionTitle,
+      identifier: values.sectionTitle,
+      questions: selected,
+    });
 
-    dispatch(saveSection(sectionTitle, selected));
+    setSelectedQuestions([]);
   };
 
   // useEffect(() => {
@@ -34,7 +39,6 @@ const CreateSections = () => {
       text: question.text,
       selected: false,
     });
-    console.log("here again");
   });
 
   allQuestions.forEach(() => selectedQuestions.push(false));
@@ -51,18 +55,33 @@ const CreateSections = () => {
                   <div className="text-center">
                     <h1 className="h4 text-gray-900 mb-4">Create a section!</h1>
                   </div>
-
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className={`form-control form-control-user`}
-                      id="text"
-                      placeholder="Enter section title here!"
-                      autoComplete={`false`}
-                      value={sectionTitle}
-                      onChange={(e) => setSectionTitle(e.target.value)}
-                    />
-                  </div>
+                  <Formik
+                    initialValues={{ sectionTitle: "" }}
+                    onSubmit={(values, { resetForm }) => {
+                      handleSectionSave(values);
+                      resetForm();
+                    }}
+                  >
+                    <Form>
+                      <div className="form-group">
+                        <Field
+                          type="text"
+                          className={`form-control form-control-user`}
+                          id="text"
+                          placeholder="Enter section title here!"
+                          autoComplete={`false`}
+                          name="sectionTitle"
+                        ></Field>
+                      </div>
+                      <div
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <button type="submit" className="btn btn-primary">
+                          Save
+                        </button>
+                      </div>
+                    </Form>
+                  </Formik>
 
                   <hr />
                 </div>
@@ -79,9 +98,6 @@ const CreateSections = () => {
           setSelectedQuestions={setSelectedQuestions}
         />
       )}
-      <button className="btn btn-primary" onClick={handleSectionSave}>
-        Save
-      </button>
     </div>
   );
 };

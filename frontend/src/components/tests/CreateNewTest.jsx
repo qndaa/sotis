@@ -2,27 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSections, saveTest } from "../store/actions/tests";
 import AllSectionsTable from "./AllSectionsTable";
+import { Formik, Form, Field } from "formik";
+import testService from "../../services/tests/TestService";
 
 const CreateNewTest = () => {
   const dispatch = useDispatch();
   const [testTitle, setTestTitle] = useState("");
   const [selectedSections, setSelectedSections] = useState([]);
   const allSections = useSelector((state) => state.tests.allSections);
+  const selectedCourse = useSelector((state) => state.courses.selectedCourse);
 
   useEffect(() => {
     dispatch(fetchAllSections());
   }, []);
 
-  const handleTestSave = () => {
+  const handleTestSave = (values) => {
     const selectedIds = [];
     allSections.forEach(
       (section, index) =>
         selectedSections[index] && selectedIds.push(section.id)
     );
 
-    console.log(selectedIds);
-
-    dispatch(saveTest(testTitle, selectedIds));
+    testService.saveTest({
+      identifier: values.testTitle,
+      sections: selectedIds,
+      course: selectedCourse,
+    });
+    setSelectedSections([]);
   };
 
   allSections.forEach(() => selectedSections.push(false));
@@ -38,18 +44,32 @@ const CreateNewTest = () => {
                   <div className="text-center">
                     <h1 className="h4 text-gray-900 mb-4">Create a test!</h1>
                   </div>
-
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className={`form-control form-control-user`}
-                      id="text"
-                      placeholder="Enter test title here!"
-                      autoComplete={`false`}
-                      value={testTitle}
-                      onChange={(e) => setTestTitle(e.target.value)}
-                    />
-                  </div>
+                  <Formik
+                    initialValues={{ testTitle: "" }}
+                    onSubmit={(values, { resetForm }) => {
+                      handleTestSave(values);
+                      resetForm();
+                    }}
+                  >
+                    <Form>
+                      <div className="form-group">
+                        <Field
+                          type="text"
+                          className={`form-control form-control-user`}
+                          id="testTitle"
+                          placeholder="Enter test title here!"
+                          autoComplete={`false`}
+                          name="testTitle"
+                          required={true}
+                        ></Field>
+                      </div>
+                      <div
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <button className="btn btn-primary">Save</button>
+                      </div>
+                    </Form>
+                  </Formik>
 
                   <hr />
                 </div>
@@ -58,22 +78,11 @@ const CreateNewTest = () => {
           </div>
         </div>
       </div>
-      {/* {formattedQuestions && (
-        <AllQuestionsTable
-          questions={allQuestions}
-          setQuestions={setFormattedQuestions}
-          selectedQuestions={selectedQuestions}
-          setSelectedQuestions={setSelectedQuestions}
-        />
-      )} */}
       <AllSectionsTable
         selectedSections={selectedSections}
         setSelectedSections={setSelectedSections}
         sections={allSections}
       />
-      <button className="btn btn-primary" onClick={handleTestSave}>
-        Save
-      </button>
     </div>
   );
 };

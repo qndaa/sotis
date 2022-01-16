@@ -9,7 +9,7 @@ from rest_framework.mixins import ListModelMixin
 
 from .filters import TestFilters
 from .models import Test
-from .serializers import FetchTestSerializer, TestSerializer
+from .serializers import FetchTestSerializer, TestSerializer, CreateTestSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
@@ -26,6 +26,7 @@ class TestViewSet(ModelViewSet, ListModelMixin):
     serializers = {
         "default": TestSerializer,
         "retrieve": FetchTestSerializer,
+        "create": CreateTestSerializer
     }
 
     def get_serializer_class(self):

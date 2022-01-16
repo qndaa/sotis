@@ -1,29 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import NewAnswerModal from "./NewAnswerModal";
-import { useDispatch, useSelector } from "react-redux";
 import AllAnswersTable from "./AllAnswersTable";
-import {
-  createNewAnswer,
-  createNewQuestion,
-  closeSuccessToast,
-} from "../store/actions/tests";
-import Toast from "../toast";
 import testService from "../../services/tests/TestService";
 
 const CreateQuestion = () => {
-  const dispatch = useDispatch();
   let answersWithIds = [];
   useEffect(() => {
     answersWithIds = testService.getAllAnswers();
   }, []);
-  const submit = (data) => {
-    console.log(data);
-  };
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -31,31 +21,15 @@ const CreateQuestion = () => {
   const [answerText, setAnswerText] = useState("");
   const [answers, setAnswers] = useState([]);
 
-  // const showSuccessToast = useSelector((state) => state.tests.showSuccessToast);
-
-  // const handleSuccessToastClose = () => {
-  //   dispatch(closeSuccessToast());
-  // };
-
   const submitNewQuestion = (data) => {
     const questionText = data.text;
     const value = data.value;
 
-    const allAnswers = [];
-    answersWithIds.forEach((answer) => allAnswers.push(answer.id));
-    const correctAnswers = [];
-    answers.forEach((answer) => {
-      answer.isCorrect && correctAnswers.push(answer.text);
-    });
+    const allAnswers = answers.map((answer) => answer.id);
+    const correctAnswers = answers.filter((answer) => answer.is_correct);
+    const correctAnswerIds = correctAnswers.map((answer) => answer.id);
 
-    const correctAnswersWithIds = answersWithIds.filter((answer) => {
-      return correctAnswers.includes(answer.text);
-    });
-
-    const correctAnswerIds = [];
-    correctAnswersWithIds.forEach((answer) => {
-      correctAnswerIds.push(answer.id);
-    });
+    console.log(allAnswers);
 
     testService.createNewQuestion({
       text: questionText,
@@ -68,20 +42,24 @@ const CreateQuestion = () => {
       time_dependant: false,
     });
 
-    window.location.reload();
+    resetPage();
+  };
+
+  const resetPage = () => {
+    reset();
+    setAnswers([]);
   };
 
   const handleAnswerSave = (data, resetForm) => {
-    answers.push({
-      identifier: answers.length + 1,
-      text: data.answerText,
-      isCorrect: data.correct,
-    });
-    testService.createNewAnswer({
-      text: data.answerText,
-      identifier: answers.length + 1,
-      is_correct: data.correct,
-    });
+    testService
+      .createNewAnswer({
+        text: data.answerText,
+        identifier: answers.length + 1,
+        is_correct: data.correct,
+      })
+      .then((answer) => {
+        setAnswers([...answers, answer.data]);
+      });
 
     resetForm();
     handleAnswerModalClose();
@@ -179,13 +157,6 @@ const CreateQuestion = () => {
           <hr />
         </>
       )}
-
-      {/* <Toast
-        title={"Success"}
-        text={"Question successfully created!"}
-        show={showSuccessToast}
-        handleClose={handleSuccessToastClose}
-      /> */}
     </>
   );
 };
