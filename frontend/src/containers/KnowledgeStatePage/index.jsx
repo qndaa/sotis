@@ -66,6 +66,7 @@ const KnowledgeStatePage = () => {
               computedKnowledgeSpace &&
               computedKnowledgeSpace.domain_connections
             }
+            handleClickDisabled={true}
           ></D3canvas>
         </div>
       </div>

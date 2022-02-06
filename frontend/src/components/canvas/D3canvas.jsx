@@ -13,6 +13,7 @@ const D3canvas = ({
   tests,
   problems,
   handleClick,
+  handleClickDisabled,
 }) => {
   const [data, setData] = useState(null);
   const [renderable, setRenderable] = useState(false);
@@ -34,6 +35,19 @@ const D3canvas = ({
     } else return "lightblue";
   };
 
+  const colorDomain = (domain) => {
+    const questionsForDomain = questions.filter(
+      (q) => q.domain == domain.id || q.domain_id == domain.id
+    );
+
+    let flag = true;
+    questionsForDomain.forEach((q) => {
+      if (!correctAnswers.includes(q.id)) flag = false;
+    });
+
+    return flag ? "lightgreen" : "lightgrey";
+  };
+
   useEffect(() => {
     console.log(domains);
     console.log(connections);
@@ -42,6 +56,14 @@ const D3canvas = ({
       domains && connections
         ? domains
             .map((domain) => {
+              if (stateMode) {
+                return {
+                  id: domain.name,
+                  infoId: domain.id,
+                  isQuestion: false,
+                  color: colorDomain(domain),
+                };
+              }
               return { id: domain.name, infoId: domain.id, isQuestion: false };
             })
             .concat(
@@ -52,6 +74,7 @@ const D3canvas = ({
                   symbolType: "square",
                   isQuestion: true,
                   color: calculateStateOnly(question),
+                  isCorrect: stateMode && correctAnswers.includes(question.id),
                 };
               })
             )
@@ -84,6 +107,22 @@ const D3canvas = ({
 
     let links = connections
       ? connections.map((connection) => {
+          // if (stateMode) {
+          //   const fromNode = nodes.filter(
+          //     (node) => node.id == connection.from_node.name
+          //   );
+          //   const toNode = nodes.filter(
+          //     (node) => node.id == connection.to_node.name
+          //   );
+          //   return {
+          //     source: connection.from_node.name,
+          //     target: connection.to_node.name,
+          //     color:
+          //       fromNode.isCorrect || toNode.isCorrect
+          //         ? "lightgreen"
+          //         : "lightblue",
+          //   };
+          // }
           return {
             source: connection.from_node.name,
             target: connection.to_node.name,
@@ -98,8 +137,18 @@ const D3canvas = ({
           (domain) =>
             domain.id === question.domain_id || domain.id === question.domain
         );
-        console.log(target);
+
         if (target.length != 0) {
+          if (stateMode) {
+            console.log(correctAnswers.includes(question.id));
+            questionDomainConnections.push({
+              source: question.text,
+              target: target[0].name,
+              color: correctAnswers.includes(question.id)
+                ? "lightgreen"
+                : "lightblue",
+            });
+          }
           questionDomainConnections.push({
             source: question.text,
             target: target[0].name,
@@ -119,8 +168,8 @@ const D3canvas = ({
     console.warn(links);
 
     setData({
-      nodes: nodes,
-      links: links,
+      nodes: dedupNodes(nodes),
+      links: dedupLinks(links),
     });
     setRenderable(true);
 
@@ -135,6 +184,38 @@ const D3canvas = ({
     let questions = [];
     sections && sections.map((section) => questions.concat(section.questions));
     return questions;
+  };
+
+  const dedupNodes = (nodes) => {
+    let deduped = [];
+    nodes.forEach((node) => {
+      if (!deduped.map((n) => n.id).includes(node.id)) {
+        deduped.push(node);
+      }
+    });
+    return deduped;
+  };
+
+  const containsLink = (links, link) => {
+    let flag = false;
+    console.log(links, link);
+    links.forEach((l) => {
+      if (l.source == link.source && l.target == link.target) flag = true;
+      // else if (l.target == link.source) flag = true;
+      // else if (l.source == link.target) flag = true;
+      // else if (l.target == link.target) flag = true;
+    });
+    return flag;
+  };
+
+  const dedupLinks = (links) => {
+    let deduped = [];
+    links.forEach((link) => {
+      if (!containsLink(deduped, link)) {
+        deduped.push(link);
+      }
+    });
+    return deduped;
   };
 
   const calculateTQConnections = () => {
@@ -238,10 +319,12 @@ const D3canvas = ({
   };
 
   const onClickNode = function (nodeId) {
-    const selectedNode =
-      data && data.nodes.filter((node) => node.id == nodeId)[0];
-    if (!selectedNode.isQuestion) handleClick(nodeId);
-    else alert("You can only click on a domain or a connection!");
+    if (!handleClickDisabled) {
+      const selectedNode =
+        data && data.nodes.filter((node) => node.id == nodeId)[0];
+      if (!selectedNode.isQuestion) handleClick(nodeId);
+      else alert("You can only click on a domain or a connection!");
+    }
   };
 
   const onClickLink = function (source, target) {
