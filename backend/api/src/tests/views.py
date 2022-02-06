@@ -1,6 +1,10 @@
+import os
 import random
+import uuid
 from typing import List
 
+from django.contrib.staticfiles import handlers
+from django.contrib.staticfiles.views import serve
 from django.template import loader
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
@@ -14,6 +18,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from ..knowledge_spaces.models import KnowledgeSpace
+from ..problem.models import Problem
 from ..questions.models import Question
 from ..questions.serializers import FetchQuestionSerializer
 
@@ -57,7 +62,19 @@ class TestViewSet(ModelViewSet, ListModelMixin):
             'items': test.get_all_questions(),
             'sections': test.sections.all()
         }
-        return Response({'template': template.render(context, request)})
+
+        dirname = os.path.dirname(__file__)
+        path = os.path.join(dirname, './static')
+
+        filename = f"{test.identifier}.xml"
+        full_path = f"{path}/{filename}"
+        f = open(full_path, "w")
+        f.write(template.render(context, request))
+        f.close()
+
+        response = Response({"template_url": f"http://localhost:8000/static/{filename}/", "template_name": filename})
+
+        return response
 
     @action(detail=True, methods={'GET'}, url_path=r"next/?(?P<current_question_id>[^/.]*)/?(?P<reverse>[^/.]*)")
     def next_question(self, request, pk, current_question_id=None, reverse=False):
@@ -131,3 +148,26 @@ class TestViewSet(ModelViewSet, ListModelMixin):
                 questions.append(question)
         filtered_questions = filter(lambda q: q.domain.id == next_domain, questions)
         return filtered_questions
+
+    @action(detail=True, methods={"PATCH"}, url_path=r"assign-problem")
+    def assign_problem(self, request, pk):
+        try:
+            instance = self.get_queryset().get(id=pk)
+            problem = request.data.get("problem", None)
+            if problem is not None:
+                instance.problem = Problem.objects.get(id=problem)
+                instance.save()
+                serializer_class = self.get_serializer_class()
+                serializer = serializer_class(instance)
+                return Response(serializer.data)
+        except Test.DoesNotExist:
+            return Response("Test not found!", status=status.HTTP_404_NOT_FOUND)
+        except Problem.DoesNotExist:
+            return Response("Problem not found!", status=status.HTTP_404_NOT_FOUND)
+
+
+def cors_serve(request, path, insecure=False, **kwargs):
+    kwargs.pop('document_root')
+    response = serve(request, path, insecure=insecure, **kwargs)
+    response['Access-Control-Allow-Origin'] = '*'
+    return response

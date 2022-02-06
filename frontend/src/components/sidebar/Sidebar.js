@@ -2,7 +2,12 @@ import React from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faPlus, faBong } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faPlus,
+  faBong,
+  faBrain,
+} from "@fortawesome/free-solid-svg-icons";
 import PAGE_ROUTES from "../../pageRoutes";
 import { useSelector } from "react-redux";
 
@@ -57,6 +62,20 @@ export default function () {
           <span>Create Section</span>
         </Link>
       </li>
+      {selectedCourse && (
+        <>
+          <hr className="sidebar-divider my-0" />
+          <li className="nav-item active">
+            <Link
+              className="nav-link"
+              to={`${PAGE_ROUTES.EXPECTED_KS_NOPARAM}${selectedCourse}`}
+            >
+              <FontAwesomeIcon icon={faBrain} className={`mr-2`} />
+              <span>Create a knowledge space</span>
+            </Link>
+          </li>
+        </>
+      )}
 
       <hr className="sidebar-divider my-0" />
     </ul>

@@ -4,20 +4,25 @@ from src.tests.models import Test
 
 
 class KnowledgeSpaceQuerySet(QuerySet):
-    def create(self, name, test, computed, **kwargs):
-        found_instance = self.filter(test_id=test).filter(computed=computed)
+    def create(self, **kwargs):
+        found_instance = (self
+                          .filter(test_id=kwargs.get("test"))
+                          .filter(computed=kwargs.get("computed"))
+                          .exclude(test_id__isnull=True))
+
         if found_instance.exists():
             instance = found_instance.first()
-            instance.name = name
-            instance.test = test
-            instance.computed = computed
+            instance.name = kwargs.get("name")
+            if kwargs.get("test"):
+                instance.test = kwargs.get("test")
             instance.connections.clear()
             instance.save()
             return instance
-        created = super(KnowledgeSpaceQuerySet, self).create(name=name, test=test, computed=computed)
+        created = super().create(**kwargs)
         return created
 
     def retrieve_drawn(self, test_id: str):
         found_qs = self.filter(test_id=test_id).filter(computed=False)
         test = Test.objects.get(id=test_id)
-        return (self.create('', test, False), found_qs.first())[found_qs.exists()]
+        # return (self.create('', test, False), found_qs.first())[found_qs.exists()]
+        return found_qs.first() if found_qs.exists() else self.create('', test, False)

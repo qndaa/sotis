@@ -12,7 +12,7 @@ class Test(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     identifier = models.TextField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    sections = models.ManyToManyField(Section, blank=True)
+    sections = models.ManyToManyField(Section)
     sort_by_ks = models.BooleanField(default=False)
     sort_by_computed_ks = models.BooleanField(default=False)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)

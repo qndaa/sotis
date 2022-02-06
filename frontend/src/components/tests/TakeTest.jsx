@@ -21,6 +21,7 @@ const TakeTest = () => {
   const [totalPointsEarned, setTotalPointsEarned] = useState(null);
   const [maxPoints, setMaxPoints] = useState(null);
   const navigate = useNavigate();
+  const selectedCourseId = useSelector((state) => state.courses.selectedCourse);
 
   useEffect(() => {
     testService.nextQuestion(params.id, null).then((response) => {
@@ -64,7 +65,7 @@ const TakeTest = () => {
       alert(
         `Finished test with ${response.data["total_points"]} of ${response.data["max_points"]}`
       );
-      navigate("/home");
+      navigate(`/home/${selectedCourseId}`);
     });
   };
 

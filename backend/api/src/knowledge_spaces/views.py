@@ -4,6 +4,8 @@ import pandas as pd
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+from .filters import KnowledgeSpaceFilter
 from .serializers import CreateKnowledgeSpaceSerializer, ListKnowledgeSpaceSerializer
 from .models import KnowledgeSpace
 from ..connections.models import Connection, DomainConnection
@@ -42,7 +44,7 @@ def compute(test_id):
     dynamic_list = []
     test_histories = TestHistory.objects.filter(test=test_id)
     if not test_histories.exists():
-        return KnowledgeSpace.objects.create('', Test.objects.get(id=test_id), True)
+        return KnowledgeSpace.objects.create(name='', test=Test.objects.get(id=test_id), computed=True)
 
     test_history = test_histories.first()
     all_questions = []
@@ -91,6 +93,14 @@ class KnowledgeSpaceViewSet(ModelViewSet):
         'get_knowledge_space_by_test': ListKnowledgeSpaceSerializer
     }
     queryset = KnowledgeSpace.objects.all()
+    filterset_class = KnowledgeSpaceFilter
+
+    def create(self, request, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         return self.serializers.get(self.action, self.serializers["default"])

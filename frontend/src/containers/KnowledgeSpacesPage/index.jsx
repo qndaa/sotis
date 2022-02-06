@@ -29,6 +29,7 @@ const KnowledgeSpacePage = () => {
         from_node: connection.from_node,
         to_node: connection.to_node,
         course: courseId,
+        knowledge_space: drawnKnowledgeSpace.id,
       })
       .then((res) => {
         const newKS = drawnKnowledgeSpace;

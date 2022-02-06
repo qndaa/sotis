@@ -2,7 +2,7 @@ import ACTION_TYPES from "../actionTypes/courses";
 import produce from "immer";
 
 export const initialState = {
-  selectedCourse: null,
+  selectedCourse: localStorage.getItem("selectedCourse") || null,
 };
 
 const courseReducer = (state = initialState, action) =>

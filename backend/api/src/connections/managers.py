@@ -7,4 +7,5 @@ class DomainConnectionQuerySet(models.QuerySet):
         if found.exists():
             found.delete()
 
-        return super().create(**kwargs)
+        instance = super().create(**kwargs)
+        return instance

@@ -10,6 +10,7 @@ const ROUTES = {
   TEST_HISTORIES: "/test-history/",
   DOMAINS: "/domains/",
   DOMAIN_CONNECTIONS: "/domain-connections/",
+  QUESTIONS: "/questions/",
 };
 
 class TestService {
@@ -25,6 +26,18 @@ class TestService {
     });
 
     return allTests;
+  };
+
+  assignProblemToTest = async (testId, problemId) => {
+    if (testId && problemId) {
+      const updatedTest = await this.client({
+        method: "PATCH",
+        url: `${ROUTES.SAVE_TEST}${testId}/assign-problem/`,
+        data: { problem: problemId },
+      });
+
+      return updatedTest;
+    }
   };
 
   createNewAnswer = async (data) => {
@@ -150,6 +163,20 @@ class TestService {
     });
   };
 
+  getAllKnowledgeSpaces = async () => {
+    return await this.client({
+      method: "GET",
+      url: `${ROUTES.KNOWLEDGE_SPACES}?computed=false`,
+    });
+  };
+
+  getTemplate = async (filename) => {
+    return await this.client({
+      method: "GET",
+      url: `static/${filename}/`,
+    });
+  };
+
   createDomainConnection = async (data) => {
     return await this.client({
       method: "POST",
@@ -158,10 +185,33 @@ class TestService {
     });
   };
 
+  createDomainConnections = async (data) => {
+    return await this.client({
+      method: "POST",
+      url: `${ROUTES.DOMAIN_CONNECTIONS}mass-save/`,
+      data,
+    });
+  };
+
   getTestHistoriesForStudent = async (studentId, courseId) => {
     return await this.client({
       method: "GET",
       url: `${ROUTES.TEST_HISTORIES}for-student/${studentId}/?course=${courseId}`,
+    });
+  };
+
+  sortByCKS = async (testId, sortByComputedKs) => {
+    return await this.client({
+      method: "PATCH",
+      url: `${ROUTES.SAVE_TEST}${testId}/`,
+      data: { sort_by_computed_ks: sortByComputedKs },
+    });
+  };
+
+  getTestHistoriesById = async (courseId) => {
+    return await this.client({
+      method: "GET",
+      url: `${ROUTES.TEST_HISTORIES}auto/?course_id=${courseId}`,
     });
   };
 
@@ -184,6 +234,22 @@ class TestService {
       method: "POST",
       url: `${ROUTES.TEST_HISTORIES}`,
       data,
+    });
+  };
+
+  createKnowledgeSpace = async (data) => {
+    return await this.client({
+      method: "POST",
+      url: `${ROUTES.KNOWLEDGE_SPACES}`,
+      data,
+    });
+  };
+
+  mapDomainToQuestion = async (questionId, domainId) => {
+    return await this.client({
+      method: "PATCH",
+      url: `${ROUTES.QUESTIONS}${questionId}/`,
+      data: { domain: domainId },
     });
   };
 }

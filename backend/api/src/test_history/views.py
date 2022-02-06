@@ -71,6 +71,11 @@ class TestHistoryViewSet(ModelViewSet):
             return Response({"correct_answers": instance.first().extract_correct_answers()})
         return Response("No answers found!", status=status.HTTP_404_NOT_FOUND)
 
+    @action(detail=False, methods=["GET"], url_path=r"auto")
+    def get_for_student_auto(self, request):
+        queryset = self.filter_queryset(self.get_queryset().filter(student=request.user.id))
+        serializer = ListTestHistorySerializer(queryset, many=True)
+        return Response(serializer.data)
 
     @action(detail=True, methods=["get"], url_path=r"connections")
     def get_connections(self, request, pk):

@@ -14,6 +14,8 @@ const PAGE_ROUTES = {
   NOT_FOUND: "/not-found",
   CHOOSE_COURSE: "/choose-course",
   CREATE_DOMAIN: "/create-domain",
+  EXPECTED_KS: "/expected-knowledge-space/:courseId",
+  EXPECTED_KS_NOPARAM: "/expected-knowledge-space/",
 };
 
 export default PAGE_ROUTES;

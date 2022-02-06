@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <qti-assessment-test xmlns="http://www.imsglobal.org/xsd/imsqti_v3p0"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-identifier={{ test_name }}
-title={{ title }}
+identifier="{{ test_name }}"
+title="{{ title }}"
 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v3p0
 https://purl.imsglobal.org/spec/qti/v3p0/xsd/imsqti_asiv3p0_v1p0.xsd"
 xml:lang="en-US" >
@@ -16,7 +16,7 @@ xml:lang="en-US" >
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
                 https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
-                identifier={{ item.identifier }}
+                identifier="{{ item.identifier }}"
                 time-dependent="false"
                 xml:lang="en-US">
 
@@ -37,10 +37,10 @@ xml:lang="en-US" >
                  <qti-item-body>
 
                 <p>{{ item.text }}</p>
-                  <qti-choice-interaction max-choices={{ item.max_choices }} min-choices={{ item.miin_choices }}
+                  <qti-choice-interaction max-choices={{ item.max_choices }} min-choices={{ item.min_choices }}
                   response-identifier="RESPONSE">
                       {% for answer in item.all_answers.all %}
-                    <qti-simple-choice identifier={{ answer.identifier }}>{{ answer.text }}</qti-simple-choice>
+                    <qti-simple-choice identifier="{{ answer.identifier }}">{{ answer.text }}</qti-simple-choice>
                       {% endfor %}
                   </qti-choice-interaction>
 

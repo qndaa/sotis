@@ -51,6 +51,7 @@ const Courses = () => {
               <button
                 className="btn btn-primary"
                 onClick={() => {
+                  localStorage.setItem("selectedCourse", course.id);
                   dispatch(select(course.id));
                   navigate(`/home/${course.id}`);
                 }}

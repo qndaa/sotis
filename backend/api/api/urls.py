@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework_simplejwt.views import (
@@ -28,6 +29,7 @@ from src.sections.urls import sectionsRouter
 from src.tests.urls import testsRouter
 from src.test_history.urls import testHistoryRouter
 from src.connections.urls import connectionsRouter
+from src.problem.urls import problems_router
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -36,6 +38,9 @@ from src.knowledge_spaces.urls import knowledge_space_router
 from src.courses.urls import courses_router
 
 from src.users.views import CustomTokenObtainPairView
+
+from .settings import STATIC_URL, STATIC_ROOT
+from src.tests.views import cors_serve
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -74,6 +79,7 @@ router.registry.extend(testHistoryRouter.registry)
 router.registry.extend(connectionsRouter.registry)
 router.registry.extend(knowledge_space_router.registry)
 router.registry.extend(courses_router.registry)
+router.registry.extend(problems_router.registry)
 
 
 swagger_docs_view = get_swagger_view(title="SOTIS Api")
@@ -87,6 +93,7 @@ urlpatterns = (
         path("api/v1/login/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
         path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     ]
+    + static(STATIC_URL, document_root=STATIC_ROOT, view=cors_serve)
     + urls
     + swagger_urlpatterns
 )

@@ -78,10 +78,12 @@ INSTALLED_APPS = [
     "src.connections",
     "src.knowledge_spaces",
     "src.courses",
+    "src.problem"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -170,7 +172,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "/api/v1/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -178,6 +180,7 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",
@@ -214,5 +217,7 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == True
 # CELERY_BROKER_URL = "redis://localhost:6379"
 # CELERY_RESULT_BACKEND = "redis://localhost:6379"
 # CELERY_TASK_SERIALIZER = "json"
+
+STATIC_ROOT = '../src/tests/static'
 
 SENDER_ADDRESS = os.getenv("DEFAULT_SENDER_ADDRESS")

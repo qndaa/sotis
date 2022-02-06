@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qti-assessment-test xmlns="http://www.imsglobal.org/xsd/imsqti_v3p0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+identifier="Test Blabla"
+title=""
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v3p0
+https://purl.imsglobal.org/spec/qti/v3p0/xsd/imsqti_asiv3p0_v1p0.xsd"
+xml:lang="en-US" >
+    <qti-test-part identifier="testPart-1" navigation-mode="nonlinear"
+   submission-mode="individual">
+    
+        <qti-assessment-section identifier="Section Bla" title="Section Bla" visible="true">
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier="None"
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>20.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>What is the correct HTML for creating a hyperlink?</p>
+                  <qti-choice-interaction max-choices=0 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier="None"
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>20.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>How many color names are used by the browsers?</p>
+                  <qti-choice-interaction max-choices=0 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier="None"
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>20.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>What are shared on the Internet and are called as Web pages?</p>
+                  <qti-choice-interaction max-choices=0 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier="None"
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>20.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>Which program is used by web clients to view the web pages?</p>
+                  <qti-choice-interaction max-choices=None min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier=""
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                   <qti-correct-response>
+                     <qti-value>3</qti-value>
+                   </qti-correct-response>
+                    
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>20.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>How can you open a link in a new browser window?</p>
+                  <qti-choice-interaction max-choices=3 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                    <qti-simple-choice identifier="1">&lt;a href=&quot;url&quot; new&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="2">&lt;a href=&quot;url&quot; target=&quot;new&quot;&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="3">&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;</qti-simple-choice>
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier=""
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                   <qti-correct-response>
+                     <qti-value>4</qti-value>
+                   </qti-correct-response>
+                    
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>20.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>How can you create an e-mail link?</p>
+                  <qti-choice-interaction max-choices=4 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                    <qti-simple-choice identifier="1">&lt;mail href=&quot;a@b&quot;&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="2">&lt;mail&gt;a@b&lt;/mail&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="3">&lt;a href=&quot;a@b&quot;&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="4">&lt;a href=&quot;mailto:a@b.com&quot;&gt;</qti-simple-choice>
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+        </qti-assessment-section>
+    
+    </qti-test-part>
+</qti-assessment-test>

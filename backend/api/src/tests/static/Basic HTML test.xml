@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qti-assessment-test xmlns="http://www.imsglobal.org/xsd/imsqti_v3p0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+identifier="Basic HTML test"
+title=""
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v3p0
+https://purl.imsglobal.org/spec/qti/v3p0/xsd/imsqti_asiv3p0_v1p0.xsd"
+xml:lang="en-US" >
+    <qti-test-part identifier="testPart-1" navigation-mode="nonlinear"
+   submission-mode="individual">
+    
+        <qti-assessment-section identifier="web_dev" title="Web development 101" visible="true">
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier="1"
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                   <qti-correct-response>
+                     <qti-value>a</qti-value>
+                   </qti-correct-response>
+                    
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>33.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>HTML is what type of language ?</p>
+                  <qti-choice-interaction max-choices=1 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                    <qti-simple-choice identifier="b">Scripting Language</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="c">Programming Language</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="d">Network protocol</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="a">Markup Language</qti-simple-choice>
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier="2"
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                   <qti-correct-response>
+                     <qti-value>a</qti-value>
+                   </qti-correct-response>
+                    
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>33.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>HTML uses</p>
+                  <qti-choice-interaction max-choices=1 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                    <qti-simple-choice identifier="b">User defined tags</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="c">Pre-specified tags</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="d">Tags only for linking</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="a">Fixed tags defined by the language</qti-simple-choice>
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+                <qti-assessment-item
+                xmlns="http://www.imsglobal.org/xsd/qti/imsqtiasi_v3p0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+                https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+                identifier="3"
+                time-dependent="false"
+                xml:lang="en-US">
+
+                <qti-response-declaration base-type="identifier" cardinality="single" identifier="RESPONSE">
+                
+                   <qti-correct-response>
+                     <qti-value>a</qti-value>
+                   </qti-correct-response>
+                    
+                 </qti-response-declaration>
+
+                <qti-outcome-declaration base-type="float" cardinality="single" identifier="SCORE">
+                   <qti-default-value>
+                     <qti-value>33.0</qti-value>
+                   </qti-default-value>
+                 </qti-outcome-declaration>
+
+                 <qti-item-body>
+
+                <p>Apart from &lt;b&gt; tag, what other tag makes text bold ?</p>
+                  <qti-choice-interaction max-choices=1 min-choices=0
+                  response-identifier="RESPONSE">
+                      
+                    <qti-simple-choice identifier="b">&lt;fat&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="c">&lt;emp&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="d">&lt;black&gt;</qti-simple-choice>
+                      
+                    <qti-simple-choice identifier="a">&lt;strong&gt;</qti-simple-choice>
+                      
+                  </qti-choice-interaction>
+
+                </qti-item-body>
+
+                <qti-response-processing
+                template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct"/>
+
+                </qti-assessment-item>
+            
+        </qti-assessment-section>
+    
+    </qti-test-part>
+</qti-assessment-test>
