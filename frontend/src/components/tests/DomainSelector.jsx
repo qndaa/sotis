@@ -22,7 +22,7 @@ const DomainSelector = ({ domains, selectedDomains, setSelectedDomains }) => {
         </li>
       ));
   return (
-    <div className="card" style={{ width: "18rem" }}>
+    <div className="card" style={{ overflowY: "auto", maxHeight: "50vh" }}>
       <div className="card-title d-flex justify-content-center mt-3">
         <h3>Add domains!</h3>
       </div>

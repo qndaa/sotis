@@ -35,6 +35,7 @@ const ExpectedKnowledgeSpacePage = () => {
   const [selectedKnowledgeSpace, setSelectedKnowledgeSpace] = useState(null);
   const [showOnClickDomainDialog, setShowOnClickDomainDialog] = useState(false);
   const [clickedDomain, setClickedDomain] = useState("");
+  const [takenProblems, setTakenProblems] = useState([]);
   const params = useParams();
 
   const createNewProblem = (values) => {
@@ -43,8 +44,15 @@ const ExpectedKnowledgeSpacePage = () => {
       .then((res) => setProblems([...problems, res.data]));
   };
 
+  const deleteKS = (ksId) => {
+    testService
+      .deleteKS(ksId)
+      .then(() =>
+        setKnowledgeSpaces(knowledgeSpaces.filter((ks) => ks.id !== ksId))
+      );
+  };
+
   const addDomainConnection = (values) => {
-    console.log(domains.filter((domain) => domain.id == values.target));
     const source = domains.filter((domain) => domain.id == values.source)[0];
     const destination = domains.filter(
       (domain) => domain.id == Number(values.target)
@@ -65,15 +73,6 @@ const ExpectedKnowledgeSpacePage = () => {
         to_node: { name: destination.name, id: destination.id },
       },
     ]);
-
-    // testService
-    //   .createDomainConnection({
-    //     from_node: values.source,
-    //     to_node: values.target,
-    //   })
-    //   .then((res) =>
-    //     setNewDomainConnections([...newDomainConnections, res.data])
-    //   );
   };
 
   useEffect(async () => {
@@ -93,7 +92,19 @@ const ExpectedKnowledgeSpacePage = () => {
     setDomains(domainsResponse.data.results);
     setProblems(problemsResponse.data.results);
     setKnowledgeSpaces(knowledgeSpacesResponse.data.results);
+    calculateTakenProblems(knowledgeSpacesResponse.data.results);
   }, [params.courseId]);
+
+  const calculateTakenProblems = (knowledgeSpaces) => {
+    setTakenProblems(
+      knowledgeSpaces.reduce((res, ks) => {
+        if (ks.problem) {
+          res.push(ks.problem.id);
+        }
+        return res;
+      }, [])
+    );
+  };
 
   const handleClick = (e) => {
     setClickedDomain(e);
@@ -135,17 +146,34 @@ const ExpectedKnowledgeSpacePage = () => {
                   <h3>Draw an expected knowledge space!</h3>
                 </div>
                 <div className="card-body">
-                  <div className="d-flex justify-content-center">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => setShowCreateKSModal(true)}
-                      disabled={
-                        selectedTests.length === 0 &&
-                        selectedDomains.length === 0
-                      }
-                    >
-                      Save
-                    </button>
+                  <div className="col-sm mb-2">
+                    <div className="d-flex justify-content-center">
+                      <ProblemSelector
+                        takenProblems={takenProblems}
+                        problems={problems}
+                        setSelectedProblems={setSelectedProblem}
+                        selectedProblems={selectedProblem}
+                        openNewProblemModal={() =>
+                          setShowCreateProblemModal(true)
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm mb-2">
+                    <div className="d-flex justify-content-center">
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => setShowCreateKSModal(true)}
+                        disabled={
+                          selectedTests.length === 0 &&
+                          selectedDomains.length === 0
+                        }
+                      >
+                        Save
+                      </button>
+                    </div>
+
+                    <hr />
                   </div>
                   {questions.length > 0 && selectedDomains.length > 0 && (
                     <D3canvas
@@ -189,6 +217,7 @@ const ExpectedKnowledgeSpacePage = () => {
                 domains={domains}
                 problems={problems}
                 setSelectedProblems={setSelectedProblem}
+                deleteKS={deleteKS}
               />
             </div>
 
@@ -204,14 +233,6 @@ const ExpectedKnowledgeSpacePage = () => {
                 domains={domains}
                 setSelectedProblems={setSelectedProblems}
                 selectedProblems={selectedProblems}
-              />
-            </div>
-            <div className="col-sm">
-              <ProblemSelector
-                problems={problems}
-                setSelectedProblems={setSelectedProblem}
-                selectedProblems={selectedProblem}
-                openNewProblemModal={() => setShowCreateProblemModal(true)}
               />
             </div>
           </div>
@@ -249,6 +270,7 @@ const ExpectedKnowledgeSpacePage = () => {
         questions={questions}
         handleSubmit={submitNewDomainConnectionOnClick}
       ></OnClickDomainConnection>
+      <hr className="mb-2 mt-5"></hr>
     </div>
   );
 };

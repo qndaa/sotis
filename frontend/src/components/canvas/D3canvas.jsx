@@ -49,10 +49,8 @@ const D3canvas = ({
   };
 
   useEffect(() => {
-    console.log(domains);
-    console.log(connections);
-    console.log(questions);
-    const nodes =
+    console.log(tests);
+    let nodes =
       domains && connections
         ? domains
             .map((domain) => {
@@ -79,18 +77,22 @@ const D3canvas = ({
               })
             )
         : [];
+    console.log(tests);
     if (tests) {
-      nodes.concat(
-        tests.map((test) => {
+      nodes = [
+        ...nodes,
+        ...tests.map((test) => {
           return {
             id: test.identifier,
             infoId: test.id,
             symbolType: "triangle",
             color: "#b642f5",
+            isQuestion: true,
           };
-        })
-      );
+        }),
+      ];
     }
+
     // if (problems) {
     //   nodes.concat(
     //     problems &&
@@ -140,7 +142,6 @@ const D3canvas = ({
 
         if (target.length != 0) {
           if (stateMode) {
-            console.log(correctAnswers.includes(question.id));
             questionDomainConnections.push({
               source: question.text,
               target: target[0].name,
@@ -176,14 +177,15 @@ const D3canvas = ({
     console.log(data);
   }, [domains, connections, questions, renderStateOnly]);
 
-  const getQuestionsForTest = (test) =>
-    test.questions || extractQuestions(test);
+  const getQuestionsForTest = (test) => {
+    if (test.questions) return test.questions;
+    console.log(extractQuestions(test));
+
+    return extractQuestions(test);
+  };
 
   const extractQuestions = (test) => {
-    const sections = test.sections;
-    let questions = [];
-    sections && sections.map((section) => questions.concat(section.questions));
-    return questions;
+    return test.sections.flatMap((section) => section.questions);
   };
 
   const dedupNodes = (nodes) => {
@@ -198,7 +200,7 @@ const D3canvas = ({
 
   const containsLink = (links, link) => {
     let flag = false;
-    console.log(links, link);
+
     links.forEach((l) => {
       if (l.source == link.source && l.target == link.target) flag = true;
       // else if (l.target == link.source) flag = true;
@@ -219,18 +221,31 @@ const D3canvas = ({
   };
 
   const calculateTQConnections = () => {
-    const connections = [];
-    tests &&
-      tests.forEach((test) => {
-        getQuestionsForTest(test).forEach((question) => {
+    let connections = [];
+    if (tests) {
+      for (let test of tests) {
+        console.warn(getQuestionsForTest(test));
+        for (let question of getQuestionsForTest(test)) {
+          console.warn(getQuestionsForTest(test));
           connections.push({
             source: test.identifier,
             target: question.text,
             color: "#b642f5",
           });
-        });
-      });
-
+        }
+      }
+    }
+    // tests &&
+    //   tests.forEach((test) => {
+    //     getQuestionsForTest(test).forEach((question) => {
+    //       connections.push({
+    //         source: test.identifier,
+    //         target: question.text,
+    //         color: "#b642f5",
+    //       });
+    //     });
+    //   });
+    console.warn(connections);
     return connections;
   };
 
@@ -259,7 +274,7 @@ const D3canvas = ({
     focusAnimationDuration: 0.75,
     focusZoom: 1,
     freezeAllDragEvents: false,
-    height: 400,
+    height: 800,
     highlightDegree: 2,
     highlightOpacity: 0.2,
     linkHighlightBehavior: true,

@@ -25,4 +25,4 @@ class KnowledgeSpaceQuerySet(QuerySet):
         found_qs = self.filter(test_id=test_id).filter(computed=False)
         test = Test.objects.get(id=test_id)
         # return (self.create('', test, False), found_qs.first())[found_qs.exists()]
-        return found_qs.first() if found_qs.exists() else self.create('', test, False)
+        return found_qs.first() if found_qs.exists() else self.create(name='', test=test, computed=False)

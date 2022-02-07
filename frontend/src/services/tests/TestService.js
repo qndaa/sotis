@@ -252,6 +252,12 @@ class TestService {
       data: { domain: domainId },
     });
   };
+
+  deleteKS = async (ksId) =>
+    await this.client({
+      method: "DELETE",
+      url: `${ROUTES.KNOWLEDGE_SPACES}${ksId}/`,
+    });
 }
 
 const testService = new TestService();

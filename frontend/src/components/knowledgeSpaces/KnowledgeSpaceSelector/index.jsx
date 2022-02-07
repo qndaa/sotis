@@ -1,6 +1,7 @@
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import testService from "../../../services/tests/TestService";
 
 const KnowledgeSpaceSelector = ({
   knowledgeSpaces,
@@ -13,6 +14,7 @@ const KnowledgeSpaceSelector = ({
   domains,
   problems,
   setSelectedProblems,
+  deleteKS,
 }) => {
   const calculateQuestions = (filtered) => {
     let sections = [];
@@ -72,6 +74,16 @@ const KnowledgeSpaceSelector = ({
           </button>
         )}
         {knowledgeSpace.name}
+        <div className="d-flex justify-content-end">
+          <button
+            className="btn btn-text"
+            onClick={() => {
+              deleteKS(knowledgeSpace.id);
+            }}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </div>
       </li>
     ));
   };
@@ -80,7 +92,10 @@ const KnowledgeSpaceSelector = ({
       <div className="card-title d-flex justify-content-center">
         <h3 className="mt-3">Open a ks!</h3>
       </div>
-      <div className="card-body">
+      <div
+        className="card-body"
+        style={{ overflowY: "auto", maxHeight: "50vh" }}
+      >
         <div className="d-flex justify-content-center">
           {/* <button className="btn btn-text mb-2" onClick={openNewProblemModal}>
             Create new
